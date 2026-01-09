@@ -32,7 +32,7 @@ export default function KisiselVeriAydinlatmaPage() {
             </p>
             <div className="bg-gray-50 rounded-xl p-4 text-gray-600">
               <p><strong>Veri Sorumlusu:</strong> Lastik Alsana Limited Şirketi</p>
-              <p><strong>Adres:</strong> Manisa, Türkiye</p>
+              <p><strong>Adres:</strong> Gaziantep, Türkiye</p>
               <p><strong>E-posta:</strong> kvkk@lastikalsana.com</p>
             </div>
           </div>

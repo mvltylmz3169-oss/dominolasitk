@@ -57,7 +57,7 @@ gerekmektedir. Üyelik ücretsizdir ve herhangi bir taahhüt içermez.`
       content: `Bu sözleşmeden doğabilecek uyuşmazlıklarda:
 
 • Türkiye Cumhuriyeti kanunları geçerlidir
-• Manisa Mahkemeleri ve İcra Daireleri yetkilidir
+• Gaziantep Mahkemeleri ve İcra Daireleri yetkilidir
 • Öncelikle dostane çözüm yolları aranacaktır
 • Tüketici hakları saklıdır`
     }

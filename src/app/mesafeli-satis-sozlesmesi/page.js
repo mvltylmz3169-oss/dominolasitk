@@ -32,7 +32,7 @@ export default function MesafeliSatisSozlesmesiPage() {
             </div>
             <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-gray-600">
               <p><strong>Ünvan:</strong> Lastik Alsana Limited Şirketi</p>
-              <p><strong>Adres:</strong> Manisa, Türkiye</p>
+              <p><strong>Adres:</strong> Gaziantep, Türkiye</p>
               <p><strong>Telefon:</strong> +90 554 994 89 89</p>
               <p><strong>E-posta:</strong> info@lastikalsana.com</p>
               <p><strong>Web Sitesi:</strong> www.lastikalsana.com</p>

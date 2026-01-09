@@ -116,7 +116,7 @@ export default function IletisimPage() {
                   <h3 className="font-semibold text-gray-800 mb-1">Merkez Ofis</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">
                     Lastik Alsana Limited Şirketi<br />
-                    Manisa, Türkiye
+                    Gaziantep, Türkiye
                   </p>
                 </div>
               </div>

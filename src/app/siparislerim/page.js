@@ -331,7 +331,7 @@ function OrdersFooter() {
           <div className="flex flex-col items-center">
             <Image 
               src={manisaLogo} 
-              alt="Manisa Ticaret Odası" 
+              alt="Gaziantep Ticaret Odası" 
               width={100} 
               height={100}
               className="object-contain"
