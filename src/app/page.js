@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, FreeMode } from 'swiper/modules';
@@ -27,8 +26,7 @@ import Footer from '@/components/Footer';
 import SearchFilterPopup, { SearchTriggerButton } from '@/components/SearchFilterPopup';
 import { useProducts } from '@/context/ProductsContext';
 
-// Optimized blur placeholder - smaller and faster
-const shimmerBlur = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzFmMjkzNyIvPjwvc3ZnPg==';
+// Hero slides data
 
 // Lastik temalı hero slides with responsive image URLs
 const heroSlides = [
@@ -155,40 +153,22 @@ export default function HomePage() {
   const selectedForYouProducts = getSelectedForYouProducts();
   const discountedProducts = getDiscountedProducts();
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 pt-[126px]">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-500 font-medium">Yükleniyor...</p>
+  // Product section skeleton loader component
+  const ProductSectionSkeleton = () => (
+    <div className="flex gap-4 overflow-hidden">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="w-[45%] flex-shrink-0 animate-pulse">
+          <div className="bg-gray-200 rounded-2xl h-48 mb-3" />
+          <div className="bg-gray-200 rounded h-4 w-3/4 mb-2" />
+          <div className="bg-gray-200 rounded h-4 w-1/2" />
         </div>
-      </div>
-    );
-  }
+      ))}
+    </div>
+  );
 
   return (
     <div className="bg-gray-50 min-h-screen pt-[6vh]">
-      {/* Preload first hero image for faster LCP */}
-      <link
-        rel="preload"
-        as="image"
-        href={heroSlides[0].imageMobile}
-        media="(max-width: 640px)"
-      />
-      <link
-        rel="preload"
-        as="image"
-        href={heroSlides[0].imageTablet}
-        media="(min-width: 641px) and (max-width: 1024px)"
-      />
-      <link
-        rel="preload"
-        as="image"
-        href={heroSlides[0].imageDesktop}
-        media="(min-width: 1025px)"
-      />
-
-      {/* Hero Slider - Motorsiklet Teması with Dark Overlay */}
+      {/* Hero Slider - 4 AL 3 ÖDE Kampanya - Anında Yüklenir */}
       <section className="relative overflow-hidden">
         <Swiper
           modules={[Pagination]}
@@ -197,49 +177,30 @@ export default function HomePage() {
           initialSlide={1}
           className="w-full aspect-[16/9] md:aspect-[21/8]"
           watchSlidesProgress={true}
-          preloadImages={false}
-          lazy={{
-            loadPrevNext: true,
-            loadPrevNextAmount: 1
-          }}
         >
           {heroSlides.map((slide, index) => (
             <SwiperSlide key={index}>
-              {({ isActive, isNext, isPrev }) => (
+              {({ isActive }) => (
                 <div className="relative w-full h-full">
-                  {/* Optimized background with CSS for instant display */}
+                  {/* Instant solid background - shows immediately */}
                   <div 
-                    className="absolute inset-0 bg-slate-800"
+                    className="absolute inset-0"
                     style={{ 
-                      backgroundColor: '#1f2937'
+                      background: slide.isCampaign 
+                        ? 'linear-gradient(135deg, #18181b 0%, #27272a 50%, #3f3f46 100%)' 
+                        : 'linear-gradient(135deg, #1e3a5f 0%, #1e293b 50%, #0f172a 100%)'
                     }}
                   />
                   
-                  {/* Main image - only load when active, next, or prev */}
-                  {(index === 0 || isActive || isNext || isPrev) && (
-                    <picture>
-                      <source 
-                        media="(max-width: 640px)" 
-                        srcSet={slide.imageMobile}
-                      />
-                      <source 
-                        media="(max-width: 1024px)" 
-                        srcSet={slide.imageTablet}
-                      />
-                      <Image
-                        src={slide.imageDesktop}
-                        alt={slide.title}
-                        fill
-                        className="object-cover"
-                        priority={index === 0}
-                        loading={index === 0 ? 'eager' : 'lazy'}
-                        placeholder="blur"
-                        blurDataURL={shimmerBlur}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
-                        fetchPriority={index === 0 ? 'high' : 'low'}
-                      />
-                    </picture>
-                  )}
+                  {/* Background image - loads async, fades in */}
+                  <div 
+                    className="absolute inset-0 transition-opacity duration-700"
+                    style={{
+                      backgroundImage: `url(${slide.imageDesktop})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  />
                   
                   {/* Dark gradient overlay */}
                   <div className={`absolute inset-0 bg-gradient-to-r ${slide.gradient} z-10`} />
@@ -247,13 +208,8 @@ export default function HomePage() {
                   <div className="absolute inset-0 flex items-center z-20">
                     <div className="max-w-7xl mx-auto px-4 w-full">
                       {slide.isCampaign ? (
-                        /* Kampanya Slaytı - Kompakt Mobil Tasarım */
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 20 }}
-                          transition={{ delay: 0.1, duration: 0.5 }}
-                          className="text-center md:text-left"
-                        >
+                        /* Kampanya Slaytı - Hemen Görünür */
+                        <div className={`text-center md:text-left transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
                           {/* Ana başlık */}
                           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-1 md:mb-2 tracking-tight">
                             <span className="bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
@@ -287,15 +243,11 @@ export default function HomePage() {
                             Kampanyayı İncele
                             <HiOutlineChevronRight className="w-4 h-4 md:w-5 md:h-5" />
                           </Link>
-                        </motion.div>
+                        </div>
                       ) : (
                         /* Normal Slayt */
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 20 }}
-                          transition={{ delay: 0.2, duration: 0.4 }}
-                          className="max-w-lg"
-                        >
+                        <div className={`max-w-lg transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
+                        
                           {/* İndirim etiketi */}
                           {slide.discount && (
                             <span className="inline-block px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full text-xs font-bold text-white mb-3 shadow-lg shadow-red-500/50 animate-pulse">
@@ -323,7 +275,7 @@ export default function HomePage() {
                             Keşfet
                             <HiOutlineChevronRight className="w-4 h-4" />
                           </Link>
-                        </motion.div>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -346,7 +298,7 @@ export default function HomePage() {
       />
 
        {/* Selected For You - Haftanın Öne Çıkan Ürünleri */}
-       {selectedForYouProducts.length > 0 && (
+       {(isLoading || selectedForYouProducts.length > 0) && (
         <section className="py-8 bg-gradient-to-b from-pink-50/50 to-gray-50">
           <div className="max-w-7xl mx-auto">
             {/* Header */}
@@ -368,15 +320,17 @@ export default function HomePage() {
               </Link>
             </div>
             
-            {/* Swiper Carousel */}
-            <div className="relative group">
+            {/* Swiper Carousel or Skeleton */}
+            <div className="relative group px-4">
+              {isLoading ? (
+                <ProductSectionSkeleton />
+              ) : (
               <Swiper
                 modules={[FreeMode]}
                 spaceBetween={16}
                 slidesPerView={2.2}
                 freeMode={true}
                 grabCursor={true}
-                className="!px-4"
                 breakpoints={{
                   480: { slidesPerView: 2.5, spaceBetween: 16 },
                   640: { slidesPerView: 3.2, spaceBetween: 16 },
@@ -397,6 +351,7 @@ export default function HomePage() {
                   </SwiperSlide>
                 ))}
               </Swiper>
+              )}
               
               {/* Gradient Fade Effects */}
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-pink-50/50 to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -419,7 +374,7 @@ export default function HomePage() {
       )}
 
       {/* Featured Products - Kışın En Güçlü Lastikleri */}
-      {featuredProducts.length > 0 && (
+      {(isLoading || featuredProducts.length > 0) && (
         <section className="py-8 bg-gradient-to-b from-white to-gray-50">
           <div className="max-w-7xl mx-auto">
             {/* Header */}
@@ -441,15 +396,17 @@ export default function HomePage() {
               </Link>
             </div>
             
-            {/* Swiper Carousel */}
-            <div className="relative group">
+            {/* Swiper Carousel or Skeleton */}
+            <div className="relative group px-4">
+              {isLoading ? (
+                <ProductSectionSkeleton />
+              ) : (
               <Swiper
                 modules={[FreeMode]}
                 spaceBetween={16}
                 slidesPerView={2.2}
                 freeMode={true}
                 grabCursor={true}
-                className="!px-4"
                 breakpoints={{
                   480: { slidesPerView: 2.5, spaceBetween: 16 },
                   640: { slidesPerView: 3.2, spaceBetween: 16 },
@@ -470,10 +427,7 @@ export default function HomePage() {
                   </SwiperSlide>
                 ))}
               </Swiper>
-              
-              {/* Gradient Fade Effects */}
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
+              )}
             </div>
 
             {/* Tümünü Gör Butonu */}
@@ -618,7 +572,7 @@ export default function HomePage() {
       </section>
 
       {/* School Shopping Products -> Yolculukta Güvenlik */}
-      {schoolShoppingProducts.length > 0 && (
+      {(isLoading || schoolShoppingProducts.length > 0) && (
         <section className="py-8 bg-gradient-to-b from-gray-50 to-white">
           <div className="max-w-7xl mx-auto">
             {/* Header */}
@@ -640,15 +594,17 @@ export default function HomePage() {
               </Link>
             </div>
             
-            {/* Swiper Carousel */}
-            <div className="relative group">
+            {/* Swiper Carousel or Skeleton */}
+            <div className="relative group px-4">
+              {isLoading ? (
+                <ProductSectionSkeleton />
+              ) : (
               <Swiper
                 modules={[FreeMode]}
                 spaceBetween={16}
                 slidesPerView={2.2}
                 freeMode={true}
                 grabCursor={true}
-                className="!px-4"
                 breakpoints={{
                   480: { slidesPerView: 2.5, spaceBetween: 16 },
                   640: { slidesPerView: 3.2, spaceBetween: 16 },
@@ -669,10 +625,7 @@ export default function HomePage() {
                   </SwiperSlide>
                 ))}
               </Swiper>
-              
-              {/* Gradient Fade Effects */}
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+              )}
             </div>
 
             {/* Tümünü Gör Butonu */}
@@ -715,7 +668,7 @@ export default function HomePage() {
       </section>
 
       {/* Most Favorited - Yağlar & Jantlar */}
-      {mostFavoritedProducts.length > 0 && (
+      {(isLoading || mostFavoritedProducts.length > 0) && (
         <section className="py-8 bg-gradient-to-b from-white to-amber-50/50">
           <div className="max-w-7xl mx-auto">
             {/* Header */}
@@ -737,15 +690,17 @@ export default function HomePage() {
               </Link>
             </div>
             
-            {/* Swiper Carousel */}
-            <div className="relative group">
+            {/* Swiper Carousel or Skeleton */}
+            <div className="relative group px-4">
+              {isLoading ? (
+                <ProductSectionSkeleton />
+              ) : (
               <Swiper
                 modules={[FreeMode]}
                 spaceBetween={16}
                 slidesPerView={2.2}
                 freeMode={true}
                 grabCursor={true}
-                className="!px-4"
                 breakpoints={{
                   480: { slidesPerView: 2.5, spaceBetween: 16 },
                   640: { slidesPerView: 3.2, spaceBetween: 16 },
@@ -766,10 +721,7 @@ export default function HomePage() {
                   </SwiperSlide>
                 ))}
               </Swiper>
-              
-              {/* Gradient Fade Effects */}
-              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-amber-50/50 to-transparent z-10 pointer-events-none" />
+              )}
             </div>
 
             {/* Tümünü Gör Butonu */}

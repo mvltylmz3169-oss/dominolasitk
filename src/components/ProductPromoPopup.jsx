@@ -110,16 +110,16 @@ export default function ProductPromoPopup() {
                 <div className="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-gradient-to-tr from-indigo-400/20 to-cyan-400/10 blur-3xl" />
 
                 {/* Header */}
-                <div className="relative pt-6 pb-3 px-4 text-center">
-                  <span className="inline-block px-4 py-1 bg-gradient-to-r from-slate-900 to-indigo-900 text-white text-xs font-bold rounded-full mb-2">
+                <div className="relative pt-4 pb-2 px-4 text-center">
+                  <span className="inline-block px-3 py-0.5 bg-gradient-to-r from-slate-900 to-indigo-900 text-white text-[10px] font-bold rounded-full mb-1.5">
                     ÖZEL FIRSAT
                   </span>
-                  <h2 className="text-xl font-bold text-gray-900">Lastik Kampanyası</h2>
+                  <h2 className="text-lg font-bold text-gray-900">Lastik Kampanyası</h2>
                 </div>
 
                 {/* Product Image */}
-                <div className="relative h-44 mx-4 bg-white/50 rounded-2xl flex items-center justify-center overflow-hidden border border-white/60 shadow-inner">
-                  <div className="relative w-40 h-40">
+                <div className="relative h-32 mx-4 bg-white/50 rounded-xl flex items-center justify-center overflow-hidden border border-white/60 shadow-inner">
+                  <div className="relative w-28 h-28">
                     <Image
                       src={product.images?.[0] || '/placeholder.png'}
                       alt={product.name}
@@ -131,59 +131,59 @@ export default function ProductPromoPopup() {
                 </div>
 
                 {/* Product Info */}
-                <div className="relative px-4 py-5 text-center">
-                  <h3 className="text-gray-900 font-bold text-sm leading-tight">
+                <div className="relative px-4 py-3 text-center">
+                  <h3 className="text-gray-900 font-bold text-xs leading-tight">
                     {product.name}
                   </h3>
-                  <p className="text-gray-500 text-xs mt-1">
+                  <p className="text-gray-500 text-[10px] mt-0.5">
                     Kış Lastiği / Üretim Tarihi: 2024
                   </p>
 
                   {/* Price */}
-                  <div className="mt-4 flex items-center justify-center gap-2">
+                  <div className="mt-2 flex items-center justify-center gap-2">
                     {product.originalPrice && product.originalPrice > product.price && (
-                      <span className="text-gray-400 text-base line-through">
+                      <span className="text-gray-400 text-sm line-through">
                         {formatPrice(product.originalPrice)} TL
                       </span>
                     )}
                   </div>
                   <div className="flex items-center justify-center gap-1">
-                    <span className="text-3xl font-black text-gray-900">
+                    <span className="text-2xl font-black text-gray-900">
                       {formatPrice(product.price)}
                     </span>
-                    <span className="text-gray-900 font-bold">TL</span>
+                    <span className="text-gray-900 font-bold text-sm">TL</span>
                   </div>
 
                   {/* Discount Badge */}
                   {product.discount && (
-                    <div className="mt-2">
-                      <span className="inline-block px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full shadow-md">
+                    <div className="mt-1.5">
+                      <span className="inline-block px-2.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full shadow-md">
                         %{product.discount} İNDİRİM
                       </span>
                     </div>
                   )}
 
                   {/* Features */}
-                  <div className="flex gap-2 mt-4">
+                  <div className="flex gap-2 mt-3">
                     <div 
-                      className="flex-1 rounded-xl py-2.5 px-3 text-center border border-white/60"
+                      className="flex-1 rounded-lg py-1.5 px-2 text-center border border-white/60"
                       style={{ background: 'rgba(255,255,255,0.6)' }}
                     >
-                      <p className="text-gray-900 font-bold text-xs leading-tight">
+                      <p className="text-gray-900 font-bold text-[10px] leading-tight">
                         Ücretsiz Lastik
                       </p>
-                      <p className="text-gray-500 text-[10px] leading-tight">
+                      <p className="text-gray-500 text-[9px] leading-tight">
                         Kaskosu
                       </p>
                     </div>
                     <div 
-                      className="flex-1 rounded-xl py-2.5 px-3 text-center border border-white/60"
+                      className="flex-1 rounded-lg py-1.5 px-2 text-center border border-white/60"
                       style={{ background: 'rgba(255,255,255,0.6)' }}
                     >
-                      <p className="text-gray-900 font-bold text-xs leading-tight">
+                      <p className="text-gray-900 font-bold text-[10px] leading-tight">
                         Maximum'a
                       </p>
-                      <p className="text-gray-500 text-[10px] leading-tight">
+                      <p className="text-gray-500 text-[9px] leading-tight">
                         Peşin Fiyatına 4 Taksit
                       </p>
                     </div>
@@ -193,7 +193,7 @@ export default function ProductPromoPopup() {
                   <Link
                     href={product?.id ? `/urun/${product.id}` : '/kategori/kis-lastikleri'}
                     onClick={handleClose}
-                    className="block mt-5 w-full py-3.5 bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 text-white font-bold text-sm rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+                    className="block mt-3 w-full py-2.5 bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 text-white font-bold text-xs rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
                   >
                     Ürüne Git
                   </Link>

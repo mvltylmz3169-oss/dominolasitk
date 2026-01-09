@@ -244,9 +244,9 @@ export default function SearchFilterPopup({ isOpen, onClose }) {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="absolute z-[100] mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden"
+                        className="absolute z-[9999] mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden"
                       >
-                        <div className="max-h-64 overflow-y-auto">
+                        <div className="max-h-80 overflow-y-auto">
                           <button
                             onClick={() => {
                               setSelectedCategory('');
@@ -254,11 +254,11 @@ export default function SearchFilterPopup({ isOpen, onClose }) {
                               setSelectedSize(null);
                               setIsCategoryOpen(false);
                             }}
-                            className="w-full px-4 py-2.5 text-left text-sm text-gray-400 hover:bg-gray-50 transition-colors"
+                            className="w-full px-4 py-3 text-left text-sm text-gray-400 hover:bg-zinc-100 transition-colors border-b border-gray-100"
                           >
                             Kategori Seçin
                           </button>
-                          {sortedCategories.map((category) => (
+                          {sortedCategories.map((category, index) => (
                             <button
                               key={category.categoryId || category.id}
                               onClick={() => {
@@ -267,8 +267,10 @@ export default function SearchFilterPopup({ isOpen, onClose }) {
                                 setSelectedSize(null);
                                 setIsCategoryOpen(false);
                               }}
-                              className={`w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition-colors ${
-                                selectedCategory === (category.categoryId || category.id) ? 'bg-zinc-100 font-medium' : ''
+                              className={`w-full px-4 py-3 text-left text-sm hover:bg-zinc-200 transition-colors ${
+                                selectedCategory === (category.categoryId || category.id) 
+                                  ? 'bg-zinc-900 text-white font-medium' 
+                                  : index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                               }`}
                             >
                               {category.displayName}
@@ -309,20 +311,20 @@ export default function SearchFilterPopup({ isOpen, onClose }) {
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
-                            className="absolute z-[100] mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden"
+                            className="absolute z-[9999] mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-2xl overflow-hidden"
                           >
-                            <div className="max-h-64 overflow-y-auto">
+                            <div className="max-h-96 overflow-y-auto">
                               <button
                                 onClick={() => {
                                   setSelectedBrand('');
                                   setSelectedSize(null);
                                   setIsBrandOpen(false);
                                 }}
-                                className="w-full px-4 py-2.5 text-left text-sm text-gray-400 hover:bg-gray-50 transition-colors"
+                                className="w-full px-4 py-3 text-left text-sm text-gray-400 hover:bg-zinc-100 transition-colors border-b border-gray-100"
                               >
                                 Marka Seçin
                               </button>
-                              {availableBrands.map((brand) => (
+                              {availableBrands.map((brand, index) => (
                                 <button
                                   key={brand}
                                   onClick={() => {
@@ -330,8 +332,10 @@ export default function SearchFilterPopup({ isOpen, onClose }) {
                                     setSelectedSize(null);
                                     setIsBrandOpen(false);
                                   }}
-                                  className={`w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition-colors ${
-                                    selectedBrand === brand ? 'bg-zinc-100 font-medium' : ''
+                                  className={`w-full px-4 py-3 text-left text-sm hover:bg-zinc-200 transition-colors ${
+                                    selectedBrand === brand 
+                                      ? 'bg-zinc-900 text-white font-medium' 
+                                      : index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                                   }`}
                                 >
                                   {brand}

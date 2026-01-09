@@ -347,7 +347,7 @@ function OrdersFooter() {
 
       {/* Main Footer Content */}
       <div className="flex flex-col items-center pt-6 pb-24">
-        <Image src="/logo3.png" alt="Logo" width={150} height={160} />
+        <Image className='hidden' src="/logo3.png" alt="Logo" width={150} height={160} />
         <p className="text-gray-500 mt-2 text-sm mb-4">Müşteri Hizmetleri | Çağrı Hattı</p>
         
         {/* WhatsApp Button */}

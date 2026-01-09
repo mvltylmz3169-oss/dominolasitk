@@ -23,7 +23,8 @@ import {
   HiOutlineGlobe,
   HiOutlineLocationMarker,
   HiOutlineClock,
-  HiOutlinePhotograph
+  HiOutlinePhotograph,
+  HiOutlineHome
 } from 'react-icons/hi';
 import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -108,16 +109,36 @@ export default function AdminDashboard() {
       }));
     });
 
-    const completedQuery = query(collection(db, 'completed_users'), orderBy('createdAt', 'desc'), limit(5));
+    // Tüm completed_users çek (toplam sayı için)
+    const completedQuery = query(collection(db, 'completed_users'), orderBy('createdAt', 'desc'));
+    let allCompletedUsers = [];
     const unsubCompleted = onSnapshot(completedQuery, (snapshot) => {
+      allCompletedUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), type: 'completed' }));
       setStats(prev => ({ ...prev, completedUsers: snapshot.size }));
-      setRecentUsers(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), type: 'completed' })));
+      // Her iki koleksiyonu birleştir ve son 5'i al
+      updateRecentUsers(allCompletedUsers, allIncompleteUsers);
     });
 
+    // Tüm incomplete_users çek (toplam sayı için)
     const incompleteQuery = query(collection(db, 'incomplete_users'), orderBy('createdAt', 'desc'));
+    let allIncompleteUsers = [];
     const unsubIncomplete = onSnapshot(incompleteQuery, (snapshot) => {
+      allIncompleteUsers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), type: 'incomplete' }));
       setStats(prev => ({ ...prev, incompleteUsers: snapshot.size }));
+      // Her iki koleksiyonu birleştir ve son 5'i al
+      updateRecentUsers(allCompletedUsers, allIncompleteUsers);
     });
+
+    // İki koleksiyonu birleştirip tarihe göre sırala ve son 5'i al
+    const updateRecentUsers = (completed, incomplete) => {
+      const allUsers = [...completed, ...incomplete];
+      allUsers.sort((a, b) => {
+        const dateA = a.createdAt?.toDate?.() || new Date(0);
+        const dateB = b.createdAt?.toDate?.() || new Date(0);
+        return dateB - dateA;
+      });
+      setRecentUsers(allUsers.slice(0, 5));
+    };
 
     // Subscribe to active visitors
     const unsubVisitors = subscribeToActiveVisitors((visitors) => {
@@ -216,6 +237,17 @@ export default function AdminDashboard() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
+            {/* Siteye Geri Dön Butonu */}
+            <Link 
+              href="/"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors"
+            >
+              <HiOutlineHome className="w-5 h-5" />
+              <span className="text-sm font-medium hidden sm:inline">Siteye Dön</span>
+            </Link>
+            
+            <div className="w-px h-8 bg-gray-200 hidden sm:block" />
+            
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-400 flex items-center justify-center">
               <span className="text-white font-black">M</span>
             </div>

