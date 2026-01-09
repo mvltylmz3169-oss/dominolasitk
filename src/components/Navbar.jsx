@@ -401,7 +401,7 @@ export default function Navbar() {
                   </div>
                   <div>
                     <p className="text-xs text-gray-500">Mağazamızı Ziyaret Edin</p>
-                    <p className="font-medium text-gray-900 text-sm">Keçiliköy OSB, 45030 Yunusemre/Manisa, Türkiye</p>
+                    <p className="font-medium text-gray-900 text-sm">Şehitkamil OSB 1. Bölge, 83514 Gaziantep / Türkiye</p>
                   </div>
                 </div>
               </div>
