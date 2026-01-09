@@ -73,7 +73,7 @@ export default function Footer() {
               <div className='flex flex-col items-center'>
                 <Image 
                   src={manisaLogo} 
-                  alt="Manisa Ticaret Odası" 
+                  alt="Gaziantep Ticaret Odası" 
                   width={120} 
                   height={120}
                   className='object-contain'
@@ -82,7 +82,7 @@ export default function Footer() {
             </div>
             
             <p className='text-center text-xs text-gray-500 leading-relaxed'>
-              Firmamız <span className='font-semibold'>T.C. Hazine ve Maliye Bakanlığı</span> ve <span className='font-semibold'>Manisa Ticaret Odası</span> tarafından 
+              Firmamız <span className='font-semibold'>T.C. Hazine ve Maliye Bakanlığı</span> ve <span className='font-semibold'>Gaziantep Ticaret Odası</span> tarafından 
               onaylı, tüm yasal gereklilikleri yerine getiren güvenilir bir e-ticaret platformudur.
             </p>
           </div>
