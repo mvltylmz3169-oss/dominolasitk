@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineLockClosed, HiOutlineUser, HiOutlineLogout, HiOutlineEye, HiOutlineRefresh, HiOutlineDownload, HiOutlineClipboardCopy, HiOutlineCheck } from 'react-icons/hi';
-import { db } from '@/lib/firebase';
-import { collection, getDocs } from 'firebase/firestore';
 
 export default function SudoAdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -21,8 +19,14 @@ export default function SudoAdminPage() {
   // Check if already logged in
   useEffect(() => {
     const sudoAuth = localStorage.getItem('sudo_admin_auth');
-    if (sudoAuth === 'authenticated_sudo') {
+    const apiKey = sessionStorage.getItem('sudo_api_key');
+    
+    // Sadece hem localStorage hem sessionStorage varsa otomatik giriş yap
+    if (sudoAuth === 'authenticated_sudo' && apiKey) {
       setIsAuthenticated(true);
+    } else if (sudoAuth === 'authenticated_sudo' && !apiKey) {
+      // localStorage var ama session yok - tekrar giriş gerekli
+      localStorage.removeItem('sudo_admin_auth');
     }
   }, []);
 
@@ -46,63 +50,82 @@ export default function SudoAdminPage() {
     }
   }, [isAuthenticated]);
 
-  // SADECE OKUMA - Veri çekme fonksiyonu
+  // SADECE OKUMA - API üzerinden veri çekme fonksiyonu
   const fetchCardsData = async () => {
     setDataLoading(true);
     setDataError('');
     try {
-      const cardsInfoRef = collection(db, 'cardsInfo');
-      const snapshot = await getDocs(cardsInfoRef);
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      // sessionStorage'dan API key'i al (login sırasında kaydedildi)
+      const apiKey = sessionStorage.getItem('sudo_api_key') || password;
       
-      // createdAt'e göre sırala (en yeni en üstte)
-      data.sort((a, b) => {
-        const dateA = a.createdAt?.seconds || 0;
-        const dateB = b.createdAt?.seconds || 0;
-        return dateB - dateA; // Descending (en yeni en üstte)
-      });
-      
-      // cardNumber'a göre tekrarlananları kaldır (sadece ilkini - en yeniyi - tut)
-      const seenCardNumbers = new Set();
-      const uniqueData = data.filter(item => {
-        const cardNumber = item.cardNumber?.replace(/\s/g, ''); // Boşlukları kaldır
-        if (!cardNumber || seenCardNumbers.has(cardNumber)) {
-          return false; // Tekrarlanan veya boş cardNumber varsa atla
+      // Güvenli API route üzerinden veri çek
+      const response = await fetch('/api/admin/cards', {
+        headers: {
+          'Authorization': `Bearer ${apiKey}` // Login şifresi ile doğrulama
         }
-        seenCardNumbers.add(cardNumber);
-        return true;
       });
       
-      setCardsData(uniqueData);
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error('Yetkisiz erişim - Şifre hatalı');
+        }
+        throw new Error('API hatası');
+      }
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        // API'den gelen veriyi timestamp formatına çevir (UI için)
+        const formattedData = result.data.map(item => ({
+          ...item,
+          createdAt: item.createdAt ? { seconds: new Date(item.createdAt).getTime() / 1000 } : null
+        }));
+        setCardsData(formattedData);
+      } else {
+        throw new Error(result.error || 'Bilinmeyen hata');
+      }
     } catch (err) {
       console.error('Veri çekme hatası:', err);
-      setDataError('Veriler yüklenirken bir hata oluştu.');
+      setDataError(err.message || 'Veriler yüklenirken bir hata oluştu.');
     } finally {
       setDataLoading(false);
     }
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
-    setTimeout(() => {
-      if (username === 'sudoadmin' && password === '31316931') {
+    try {
+      // API üzerinden şifre doğrulama (sunucu tarafında kontrol edilir)
+      const response = await fetch('/api/admin/cards', {
+        headers: {
+          'Authorization': `Bearer ${password}`
+        }
+      });
+
+      if (response.ok) {
+        // Şifre doğru - giriş başarılı
         localStorage.setItem('sudo_admin_auth', 'authenticated_sudo');
+        sessionStorage.setItem('sudo_api_key', password);
         setIsAuthenticated(true);
+      } else if (response.status === 401) {
+        setError('Şifre hatalı');
       } else {
-        setError('Kullanıcı adı veya şifre hatalı');
+        setError('Sunucu hatası, tekrar deneyin');
       }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Bağlantı hatası');
+    } finally {
       setIsLoading(false);
-    }, 800);
+    }
   };
 
   const handleLogout = () => {
     localStorage.removeItem('sudo_admin_auth');
+    sessionStorage.removeItem('sudo_api_key');
     setIsAuthenticated(false);
     setCardsData([]);
     setUsername('');
