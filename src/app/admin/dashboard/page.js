@@ -232,28 +232,28 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-700/50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Siteye Geri Dön Butonu */}
             <Link 
               href="/"
-              className="flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl transition-colors"
             >
               <HiOutlineHome className="w-5 h-5" />
               <span className="text-sm font-medium hidden sm:inline">Siteye Dön</span>
             </Link>
             
-            <div className="w-px h-8 bg-gray-200 hidden sm:block" />
+            <div className="w-px h-8 bg-gray-700 hidden sm:block" />
             
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-400 flex items-center justify-center shadow-lg shadow-red-500/30">
               <span className="text-white font-black">M</span>
             </div>
             <div>
-              <span className="font-bold text-gray-900">Admin Panel</span>
-              <p className="text-xs text-gray-500">Lastik Alsana Yönetim</p>
+              <span className="font-bold text-white">Admin Panel</span>
+              <p className="text-xs text-gray-400">Lastik Alsana Yönetim</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -276,7 +276,7 @@ export default function AdminDashboard() {
 
             <button 
               onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
             >
               <HiOutlineLogout className="w-5 h-5" />
               Çıkış
@@ -290,68 +290,68 @@ export default function AdminDashboard() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 py-6">
             {[
-              { icon: HiOutlineClipboardList, label: 'Toplam Sipariş', value: stats.totalOrders, color: 'bg-blue-500', lightColor: 'bg-blue-50', textColor: 'text-blue-600' },
-              { icon: HiOutlineCurrencyDollar, label: 'Normal Gelir', value: formatPrice(stats.totalRevenue), color: 'bg-green-500', lightColor: 'bg-green-50', textColor: 'text-green-600' },
-              { icon: HiOutlineCurrencyDollar, label: 'Vergi Geliri', value: formatPrice(stats.taxRevenue), color: 'bg-emerald-500', lightColor: 'bg-emerald-50', textColor: 'text-emerald-600', special: true },
-              { icon: HiOutlineCurrencyDollar, label: 'TOPLAM GELİR', value: formatPrice(stats.grandTotal), color: 'bg-gradient-to-r from-violet-500 to-purple-500', lightColor: 'bg-gradient-to-r from-violet-50 to-purple-50', textColor: 'text-purple-600', highlight: true },
-              { icon: HiOutlineUsers, label: 'Tamamlanan', value: stats.completedUsers, color: 'bg-purple-500', lightColor: 'bg-purple-50', textColor: 'text-purple-600' },
-              { icon: HiOutlineExclamation, label: 'Tamamlanmayan', value: stats.incompleteUsers, color: 'bg-amber-500', lightColor: 'bg-amber-50', textColor: 'text-amber-600' },
+              { icon: HiOutlineClipboardList, label: 'Toplam Sipariş', value: stats.totalOrders, color: 'bg-blue-500', lightColor: 'bg-blue-500/20', textColor: 'text-blue-400' },
+              { icon: HiOutlineCurrencyDollar, label: 'Normal Gelir', value: formatPrice(stats.totalRevenue), color: 'bg-green-500', lightColor: 'bg-green-500/20', textColor: 'text-green-400' },
+              { icon: HiOutlineCurrencyDollar, label: 'Vergi Geliri', value: formatPrice(stats.taxRevenue), color: 'bg-emerald-500', lightColor: 'bg-emerald-500/20', textColor: 'text-emerald-400', special: true },
+              { icon: HiOutlineCurrencyDollar, label: 'TOPLAM GELİR', value: formatPrice(stats.grandTotal), color: 'bg-gradient-to-r from-violet-500 to-purple-500', lightColor: 'bg-gradient-to-r from-violet-50 to-purple-50', textColor: 'text-purple-400', highlight: true },
+              { icon: HiOutlineUsers, label: 'Tamamlanan', value: stats.completedUsers, color: 'bg-purple-500', lightColor: 'bg-purple-500/20', textColor: 'text-purple-400' },
+              { icon: HiOutlineExclamation, label: 'Tamamlanmayan', value: stats.incompleteUsers, color: 'bg-amber-500', lightColor: 'bg-amber-500/20', textColor: 'text-amber-400' },
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`p-4 border rounded-2xl shadow-sm ${
+                className={`p-4 border rounded-2xl ${
                   stat.highlight 
-                    ? 'bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 border-purple-400 shadow-lg shadow-purple-200' 
+                    ? 'bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 border-purple-400 shadow-lg shadow-purple-500/30' 
                     : stat.special 
-                      ? 'bg-emerald-50 border-emerald-200'
-                      : 'bg-white border-gray-100'
+                      ? 'bg-gray-800/50 backdrop-blur-sm border-emerald-500/30'
+                      : 'bg-gray-800/50 backdrop-blur-sm border-gray-700/50'
                 }`}
               >
                 <div className={`w-10 h-10 ${stat.highlight ? 'bg-white/20' : stat.lightColor} rounded-xl flex items-center justify-center mb-3`}>
                   <stat.icon className={`w-5 h-5 ${stat.highlight ? 'text-white' : stat.textColor}`} />
                 </div>
-                <p className={`text-2xl font-bold ${stat.highlight ? 'text-white' : 'text-gray-900'}`}>{stat.value}</p>
-                <p className={`text-sm ${stat.highlight ? 'text-white/80 font-semibold' : 'text-gray-500'}`}>{stat.label}</p>
+                <p className={`text-2xl font-bold ${stat.highlight ? 'text-white' : 'text-white'}`}>{stat.value}</p>
+                <p className={`text-sm ${stat.highlight ? 'text-white/80 font-semibold' : 'text-gray-400'}`}>{stat.label}</p>
               </motion.div>
             ))}
           </div>
 
           {/* Quick Actions */}
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 py-4">
-            <Link href="/admin/products" className="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
-              <HiOutlineShoppingBag className="w-6 h-6 text-gray-400 group-hover:text-red-500 mb-2 transition-colors" />
-              <p className="font-semibold text-gray-900">Ürünler</p>
-              <p className="text-sm text-gray-500">{products.length} ürün</p>
+            <Link href="/admin/products" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
+              <HiOutlineShoppingBag className="w-6 h-6 text-gray-400 group-hover:text-red-400 mb-2 transition-colors" />
+              <p className="font-semibold text-white">Ürünler</p>
+              <p className="text-sm text-gray-400">{products.length} ürün</p>
             </Link>
-            <Link href="/admin/orders" className="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
-              <HiOutlineClipboardList className="w-6 h-6 text-gray-400 group-hover:text-red-500 mb-2 transition-colors" />
-              <p className="font-semibold text-gray-900">Siparişler</p>
-              <p className="text-sm text-gray-500">Tüm siparişler</p>
+            <Link href="/admin/orders" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
+              <HiOutlineClipboardList className="w-6 h-6 text-gray-400 group-hover:text-red-400 mb-2 transition-colors" />
+              <p className="font-semibold text-white">Siparişler</p>
+              <p className="text-sm text-gray-400">Tüm siparişler</p>
             </Link>
-            <Link href="/admin/users" className="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
-              <HiOutlineUserGroup className="w-6 h-6 text-gray-400 group-hover:text-red-500 mb-2 transition-colors" />
-              <p className="font-semibold text-gray-900">Müşteriler</p>
-              <p className="text-sm text-gray-500">Kayıtlı kullanıcılar</p>
+            <Link href="/admin/users" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
+              <HiOutlineUserGroup className="w-6 h-6 text-gray-400 group-hover:text-red-400 mb-2 transition-colors" />
+              <p className="font-semibold text-white">Müşteriler</p>
+              <p className="text-sm text-gray-400">Kayıtlı kullanıcılar</p>
             </Link>
-            <Link href="/admin/homepage" className="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
-              <HiOutlineTemplate className="w-6 h-6 text-gray-400 group-hover:text-purple-500 mb-2 transition-colors" />
-              <p className="font-semibold text-gray-900">Ana Sayfa</p>
-              <p className="text-sm text-gray-500">Bölüm düzenle</p>
+            <Link href="/admin/homepage" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
+              <HiOutlineTemplate className="w-6 h-6 text-gray-400 group-hover:text-purple-400 mb-2 transition-colors" />
+              <p className="font-semibold text-white">Ana Sayfa</p>
+              <p className="text-sm text-gray-400">Bölüm düzenle</p>
             </Link>
-            <Link href="/admin/categories" className="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
-              <HiOutlinePhotograph className="w-6 h-6 text-gray-400 group-hover:text-indigo-500 mb-2 transition-colors" />
-              <p className="font-semibold text-gray-900">Kategoriler</p>
-              <p className="text-sm text-gray-500">Resim düzenle</p>
+            <Link href="/admin/categories" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
+              <HiOutlinePhotograph className="w-6 h-6 text-gray-400 group-hover:text-indigo-400 mb-2 transition-colors" />
+              <p className="font-semibold text-white">Kategoriler</p>
+              <p className="text-sm text-gray-400">Resim düzenle</p>
             </Link>
-            <Link href="/admin/settings" className="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow group">
-              <HiOutlineCog className="w-6 h-6 text-gray-400 group-hover:text-green-500 mb-2 transition-colors" />
-              <p className="font-semibold text-gray-900">IBAN Ayarları</p>
-              <p className="text-sm text-gray-500">Ödeme bilgileri</p>
+            <Link href="/admin/settings" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
+              <HiOutlineCog className="w-6 h-6 text-gray-400 group-hover:text-green-400 mb-2 transition-colors" />
+              <p className="font-semibold text-white">IBAN Ayarları</p>
+              <p className="text-sm text-gray-400">Ödeme bilgileri</p>
             </Link>
-            <Link href="/admin/products/new" className="p-4 bg-gradient-to-br from-red-500 to-orange-400 rounded-2xl shadow-lg hover:shadow-xl transition-shadow text-white">
+            <Link href="/admin/products/new" className="p-4 bg-gradient-to-br from-red-500 to-orange-400 rounded-2xl shadow-lg shadow-red-500/30 hover:shadow-xl hover:shadow-red-500/40 transition-all text-white">
               <HiOutlinePlus className="w-6 h-6 mb-2" />
               <p className="font-semibold">Yeni Ürün</p>
               <p className="text-sm text-white/80">Ürün ekle</p>
@@ -361,8 +361,8 @@ export default function AdminDashboard() {
           {/* Categories Overview */}
           <div className="py-4">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">Kategoriler</h2>
-              <Link href="/admin/products" className="text-sm text-red-500 hover:text-red-600 flex items-center gap-1">
+              <h2 className="text-lg font-semibold text-white">Kategoriler</h2>
+              <Link href="/admin/products" className="text-sm text-red-400 hover:text-red-300 flex items-center gap-1">
                 Tümü <HiOutlineChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -371,16 +371,16 @@ export default function AdminDashboard() {
                 {categories.map((cat) => {
                   const count = products.filter(p => p.category === cat.categoryId).length;
                   return (
-                    <div key={cat.id} className="p-3 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div key={cat.id} className="p-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl hover:bg-gray-700/50 hover:border-gray-600 transition-all">
                       <span className="text-2xl">{cat.icon}</span>
-                      <p className="font-medium text-sm text-gray-900 mt-2">{cat.name}</p>
-                      <p className="text-xs text-gray-500">{count} ürün</p>
+                      <p className="font-medium text-sm text-white mt-2">{cat.name}</p>
+                      <p className="text-xs text-gray-400">{count} ürün</p>
                     </div>
                   );
                 })}
               </div>
             ) : (
-              <div className="p-8 text-center text-gray-400 bg-white border border-gray-100 rounded-xl">
+              <div className="p-8 text-center text-gray-400 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl">
                 {isLoading ? 'Yükleniyor...' : 'Kategori bulunamadı'}
               </div>
             )}
@@ -390,33 +390,33 @@ export default function AdminDashboard() {
             {/* Recent Orders */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">Son Siparişler</h2>
-                <Link href="/admin/orders" className="text-sm text-red-500 hover:text-red-600 flex items-center gap-1">
+                <h2 className="text-lg font-semibold text-white">Son Siparişler</h2>
+                <Link href="/admin/orders" className="text-sm text-red-400 hover:text-red-300 flex items-center gap-1">
                   Tümü <HiOutlineChevronRight className="w-4 h-4" />
                 </Link>
               </div>
               <div className="space-y-3">
                 {recentOrders.length > 0 ? recentOrders.map((order) => (
-                  <div key={order.id} className="p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
+                  <div key={order.id} className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl hover:bg-gray-700/50 transition-all">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-mono text-gray-400">#{order.orderNumber || order.id.slice(0, 8)}</span>
                       <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                        order.status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                        order.status === 'completed' ? 'bg-green-100 text-green-700' :
-                        'bg-gray-100 text-gray-600'
+                        order.status === 'pending' ? 'bg-amber-500/20 text-amber-400' :
+                        order.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                        'bg-gray-600 text-gray-300'
                       }`}>
                         {order.status === 'pending' ? 'Beklemede' : 
                          order.status === 'completed' ? 'Tamamlandı' : order.status}
                       </span>
                     </div>
-                    <p className="font-medium text-gray-900">{order.customer?.firstName} {order.customer?.lastName}</p>
+                    <p className="font-medium text-white">{order.customer?.firstName} {order.customer?.lastName}</p>
                     <div className="flex items-center justify-between mt-2 text-sm">
-                      <span className="text-gray-500">{formatDate(order.createdAt)}</span>
-                      <span className="font-bold text-gray-900">{formatPrice(order.total)}</span>
+                      <span className="text-gray-400">{formatDate(order.createdAt)}</span>
+                      <span className="font-bold text-white">{formatPrice(order.total)}</span>
                     </div>
                   </div>
                 )) : (
-                  <div className="p-8 text-center text-gray-400 bg-white border border-gray-100 rounded-xl">
+                  <div className="p-8 text-center text-gray-400 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl">
                     Henüz sipariş yok
                   </div>
                 )}
@@ -426,28 +426,28 @@ export default function AdminDashboard() {
             {/* Recent Users */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">Son Müşteriler</h2>
-                <Link href="/admin/users" className="text-sm text-red-500 hover:text-red-600 flex items-center gap-1">
+                <h2 className="text-lg font-semibold text-white">Son Müşteriler</h2>
+                <Link href="/admin/users" className="text-sm text-red-400 hover:text-red-300 flex items-center gap-1">
                   Tümü <HiOutlineChevronRight className="w-4 h-4" />
                 </Link>
               </div>
               <div className="space-y-3">
                 {recentUsers.length > 0 ? recentUsers.map((user) => (
-                  <div key={user.id} className="p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
+                  <div key={user.id} className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl hover:bg-gray-700/50 transition-all">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-900">{user.firstName} {user.lastName}</span>
+                      <span className="text-sm font-medium text-white">{user.firstName} {user.lastName}</span>
                       <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                        user.type === 'completed' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'
+                        user.type === 'completed' ? 'bg-green-500/20 text-green-400' : 'bg-amber-500/20 text-amber-400'
                       }`}>
                         {user.type === 'completed' ? 'Tamamlandı' : 'Beklemede'}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-500">{user.phone}</p>
-                    <p className="text-sm text-gray-500">{user.email}</p>
-                    <p className="text-xs text-gray-400 mt-2">{formatDate(user.createdAt)}</p>
+                    <p className="text-sm text-gray-400">{user.phone}</p>
+                    <p className="text-sm text-gray-400">{user.email}</p>
+                    <p className="text-xs text-gray-500 mt-2">{formatDate(user.createdAt)}</p>
                   </div>
                 )) : (
-                  <div className="p-8 text-center text-gray-400 bg-white border border-gray-100 rounded-xl">
+                  <div className="p-8 text-center text-gray-400 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl">
                     Henüz müşteri yok
                   </div>
                 )}
@@ -463,14 +463,14 @@ export default function AdminDashboard() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
           onClick={() => setShowVisitorModal(false)}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="w-full max-w-4xl max-h-[85vh] bg-white rounded-2xl shadow-2xl overflow-hidden"
+            className="w-full max-w-4xl max-h-[85vh] bg-gray-900 border border-gray-700/50 rounded-2xl shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -545,7 +545,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Modal Content */}
-            <div className="p-6 overflow-y-auto max-h-[calc(85vh-200px)]">
+            <div className="p-6 overflow-y-auto max-h-[calc(85vh-200px)] bg-gray-900">
               {activeTab === 'active' ? (
                 <div className="space-y-4">
                   {activeVisitors.length > 0 ? (
@@ -555,59 +555,59 @@ export default function AdminDashboard() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className="p-4 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl"
+                        className="p-4 bg-gradient-to-r from-emerald-900/50 to-teal-900/50 border border-emerald-500/30 rounded-xl"
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="p-2 bg-white rounded-lg shadow-sm">
+                            <div className="p-2 bg-gray-800 rounded-lg">
                               {getDeviceIcon(visitor.device)}
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
-                                <span className="font-semibold text-gray-900">{visitor.device}</span>
+                                <span className="font-semibold text-white">{visitor.device}</span>
                                 <span className="text-xs px-2 py-0.5 bg-emerald-500 text-white rounded-full">Aktif</span>
                               </div>
-                              <p className="text-sm text-gray-600">{visitor.browser} • {visitor.os}</p>
+                              <p className="text-sm text-gray-400">{visitor.browser} • {visitor.os}</p>
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="text-xs text-gray-500">Giriş: {formatTimestamp(visitor.enteredAt)}</p>
+                            <p className="text-xs text-gray-400">Giriş: {formatTimestamp(visitor.enteredAt)}</p>
                           </div>
                         </div>
                         
                         <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-                          <div className="p-2 bg-white rounded-lg">
-                            <div className="flex items-center gap-2 text-gray-500 mb-1">
+                          <div className="p-2 bg-gray-800/50 rounded-lg">
+                            <div className="flex items-center gap-2 text-gray-400 mb-1">
                               <HiOutlineGlobe className="w-4 h-4" />
                               <span className="text-xs">IP Adresi</span>
                             </div>
-                            <p className="font-mono text-sm font-medium text-gray-900">{visitor.ip}</p>
+                            <p className="font-mono text-sm font-medium text-white">{visitor.ip}</p>
                           </div>
-                          <div className="p-2 bg-white rounded-lg">
-                            <div className="flex items-center gap-2 text-gray-500 mb-1">
+                          <div className="p-2 bg-gray-800/50 rounded-lg">
+                            <div className="flex items-center gap-2 text-gray-400 mb-1">
                               <HiOutlineLocationMarker className="w-4 h-4" />
                               <span className="text-xs">Konum</span>
                             </div>
-                            <p className="text-sm font-medium text-gray-900">{visitor.city}, {visitor.country}</p>
+                            <p className="text-sm font-medium text-white">{visitor.city}, {visitor.country}</p>
                           </div>
-                          <div className="p-2 bg-white rounded-lg">
-                            <div className="flex items-center gap-2 text-gray-500 mb-1">
+                          <div className="p-2 bg-gray-800/50 rounded-lg">
+                            <div className="flex items-center gap-2 text-gray-400 mb-1">
                               <HiOutlineEye className="w-4 h-4" />
                               <span className="text-xs">Sayfa</span>
                             </div>
-                            <p className="text-sm font-medium text-gray-900 truncate">{visitor.currentPage}</p>
+                            <p className="text-sm font-medium text-white truncate">{visitor.currentPage}</p>
                           </div>
-                          <div className="p-2 bg-white rounded-lg">
-                            <div className="flex items-center gap-2 text-gray-500 mb-1">
+                          <div className="p-2 bg-gray-800/50 rounded-lg">
+                            <div className="flex items-center gap-2 text-gray-400 mb-1">
                               <HiOutlineChevronRight className="w-4 h-4" />
                               <span className="text-xs">Kaynak</span>
                             </div>
-                            <p className="text-sm font-medium text-gray-900 truncate">{visitor.referrer || 'Doğrudan'}</p>
+                            <p className="text-sm font-medium text-white truncate">{visitor.referrer || 'Doğrudan'}</p>
                           </div>
                         </div>
                         
-                        <div className="mt-3 pt-3 border-t border-emerald-200">
-                          <p className="text-xs text-gray-500">
+                        <div className="mt-3 pt-3 border-t border-emerald-500/30">
+                          <p className="text-xs text-gray-400">
                             Ekran: {visitor.screenWidth}x{visitor.screenHeight} • Dil: {visitor.language}
                           </p>
                         </div>
@@ -615,10 +615,10 @@ export default function AdminDashboard() {
                     ))
                   ) : (
                     <div className="text-center py-12">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                        <HiOutlineEye className="w-8 h-8 text-gray-400" />
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gray-800 rounded-full flex items-center justify-center">
+                        <HiOutlineEye className="w-8 h-8 text-gray-500" />
                       </div>
-                      <p className="text-gray-500">Şu anda aktif ziyaretçi yok</p>
+                      <p className="text-gray-400">Şu anda aktif ziyaretçi yok</p>
                     </div>
                   )}
                 </div>
@@ -633,46 +633,46 @@ export default function AdminDashboard() {
                         transition={{ delay: index * 0.03 }}
                         className={`p-4 border rounded-xl ${
                           visitor.isActive 
-                            ? 'bg-emerald-50 border-emerald-200' 
-                            : 'bg-gray-50 border-gray-200'
+                            ? 'bg-emerald-900/30 border-emerald-500/30' 
+                            : 'bg-gray-800/50 border-gray-700/50'
                         }`}
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex items-center gap-3">
-                            <div className={`p-2 rounded-lg ${visitor.isActive ? 'bg-emerald-100' : 'bg-gray-100'}`}>
+                            <div className={`p-2 rounded-lg ${visitor.isActive ? 'bg-emerald-900/50' : 'bg-gray-700'}`}>
                               {getDeviceIcon(visitor.device)}
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
-                                <span className="font-semibold text-gray-900">{visitor.device}</span>
+                                <span className="font-semibold text-white">{visitor.device}</span>
                                 {visitor.isActive ? (
                                   <span className="text-xs px-2 py-0.5 bg-emerald-500 text-white rounded-full">Aktif</span>
                                 ) : (
-                                  <span className="text-xs px-2 py-0.5 bg-gray-400 text-white rounded-full">Çıktı</span>
+                                  <span className="text-xs px-2 py-0.5 bg-gray-600 text-gray-300 rounded-full">Çıktı</span>
                                 )}
                               </div>
-                              <p className="text-sm text-gray-600">{visitor.browser} • {visitor.os}</p>
+                              <p className="text-sm text-gray-400">{visitor.browser} • {visitor.os}</p>
                             </div>
                           </div>
-                          <div className="text-right text-xs text-gray-500">
+                          <div className="text-right text-xs text-gray-400">
                             <p>Giriş: {formatFullDate(visitor.enteredAt)}</p>
                             {visitor.exitedAt && <p>Çıkış: {formatFullDate(visitor.exitedAt)}</p>}
                           </div>
                         </div>
                         
                         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                          <span className="px-2 py-1 bg-white rounded border">{visitor.ip}</span>
-                          <span className="px-2 py-1 bg-white rounded border">{visitor.city}, {visitor.country}</span>
-                          <span className="px-2 py-1 bg-white rounded border">{visitor.currentPage}</span>
+                          <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded border border-gray-600">{visitor.ip}</span>
+                          <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded border border-gray-600">{visitor.city}, {visitor.country}</span>
+                          <span className="px-2 py-1 bg-gray-700 text-gray-300 rounded border border-gray-600">{visitor.currentPage}</span>
                         </div>
                       </motion.div>
                     ))
                   ) : (
                     <div className="text-center py-12">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                        <HiOutlineClock className="w-8 h-8 text-gray-400" />
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gray-800 rounded-full flex items-center justify-center">
+                        <HiOutlineClock className="w-8 h-8 text-gray-500" />
                       </div>
-                      <p className="text-gray-500">Son 24 saatte ziyaretçi kaydı yok</p>
+                      <p className="text-gray-400">Son 24 saatte ziyaretçi kaydı yok</p>
                     </div>
                   )}
                 </div>

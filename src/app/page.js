@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, FreeMode } from 'swiper/modules';
 import 'swiper/css';
@@ -17,7 +16,6 @@ import {
   HiOutlineSupport, 
   HiOutlineHeart, 
   HiOutlineSparkles,
-  HiOutlineStar,
   HiStar
 } from 'react-icons/hi';
 import { GiCarWheel } from 'react-icons/gi';
@@ -147,11 +145,12 @@ export default function HomePage() {
     getDiscountedProducts 
   } = useProducts();
   
-  const featuredProducts = getFeaturedProducts();
-  const schoolShoppingProducts = getSchoolShoppingProducts();
-  const mostFavoritedProducts = getMostFavoritedProducts();
-  const selectedForYouProducts = getSelectedForYouProducts();
-  const discountedProducts = getDiscountedProducts();
+  // Memoize product lists to prevent recalculation on every render
+  const featuredProducts = useMemo(() => getFeaturedProducts(), [products]);
+  const schoolShoppingProducts = useMemo(() => getSchoolShoppingProducts(), [products]);
+  const mostFavoritedProducts = useMemo(() => getMostFavoritedProducts(), [products]);
+  const selectedForYouProducts = useMemo(() => getSelectedForYouProducts(), [products]);
+  const discountedProducts = useMemo(() => getDiscountedProducts(), [products]);
 
   // Product section skeleton loader component
   const ProductSectionSkeleton = () => (
@@ -250,22 +249,15 @@ export default function HomePage() {
                         
                           {/* İndirim etiketi */}
                           {slide.discount && (
-                            <span className="inline-block px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full text-xs font-bold text-white mb-3 shadow-lg shadow-red-500/50 animate-pulse">
+                            <span className="inline-block px-2.5 py-1 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full text-xs font-semibold text-white mb-2">
                               {slide.discount}
                             </span>
                           )}
                           
-                          {/* Lastik Alsana başlığı */}
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-red-400 text-sm font-semibold tracking-wider uppercase">
-                              🛞 Lastik Alsana 🛞
-                            </span>
-                          </div>
-                          
-                          <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
+                          <h1 className="text-3xl md:text-5xl font-bold text-white mb-1.5 drop-shadow-lg">
                             {slide.title}
                           </h1>
-                          <p className="text-lg text-white/90 mb-6 drop-shadow">
+                          <p className="text-base md:text-lg text-white/90 mb-3 drop-shadow">
                             {slide.subtitle}
                           </p>
                           <Link
@@ -331,6 +323,7 @@ export default function HomePage() {
                 slidesPerView={2.2}
                 freeMode={true}
                 grabCursor={true}
+                watchSlidesProgress={false}
                 breakpoints={{
                   480: { slidesPerView: 2.5, spaceBetween: 16 },
                   640: { slidesPerView: 3.2, spaceBetween: 16 },
@@ -341,13 +334,7 @@ export default function HomePage() {
               >
                 {selectedForYouProducts.map((product, index) => (
                   <SwiperSlide key={product.id}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <ProductCard product={product} index={index} />
-                    </motion.div>
+                    <ProductCard product={product} index={index} />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -407,6 +394,7 @@ export default function HomePage() {
                 slidesPerView={2.2}
                 freeMode={true}
                 grabCursor={true}
+                watchSlidesProgress={false}
                 breakpoints={{
                   480: { slidesPerView: 2.5, spaceBetween: 16 },
                   640: { slidesPerView: 3.2, spaceBetween: 16 },
@@ -417,13 +405,7 @@ export default function HomePage() {
               >
                 {featuredProducts.map((product, index) => (
                   <SwiperSlide key={product.id}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <ProductCard product={product} index={index} />
-                    </motion.div>
+                    <ProductCard product={product} index={index} />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -552,10 +534,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="relative h-[160px] md:h-[200px] rounded-2xl overflow-hidden group">
             <Image
-              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200"
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=70"
               alt="Kış Lastikleri"
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              sizes="(max-width: 768px) 100vw, 1200px"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-800/70 to-transparent flex items-center">
               <div className="px-6 md:px-10">
@@ -605,6 +589,7 @@ export default function HomePage() {
                 slidesPerView={2.2}
                 freeMode={true}
                 grabCursor={true}
+                watchSlidesProgress={false}
                 breakpoints={{
                   480: { slidesPerView: 2.5, spaceBetween: 16 },
                   640: { slidesPerView: 3.2, spaceBetween: 16 },
@@ -615,13 +600,7 @@ export default function HomePage() {
               >
                 {schoolShoppingProducts.map((product, index) => (
                   <SwiperSlide key={product.id}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <ProductCard product={product} index={index} />
-                    </motion.div>
+                    <ProductCard product={product} index={index} />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -648,10 +627,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="relative h-[160px] md:h-[200px] rounded-2xl overflow-hidden group">
             <Image
-              src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1200"
+              src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=70"
               alt="Yaz Lastikleri"
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              sizes="(max-width: 768px) 100vw, 1200px"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-l from-slate-900/85 via-slate-800/70 to-transparent flex items-center justify-end">
               <div className="px-6 md:px-10 text-right">
@@ -701,6 +682,7 @@ export default function HomePage() {
                 slidesPerView={2.2}
                 freeMode={true}
                 grabCursor={true}
+                watchSlidesProgress={false}
                 breakpoints={{
                   480: { slidesPerView: 2.5, spaceBetween: 16 },
                   640: { slidesPerView: 3.2, spaceBetween: 16 },
@@ -711,13 +693,7 @@ export default function HomePage() {
               >
                 {mostFavoritedProducts.map((product, index) => (
                   <SwiperSlide key={product.id}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <ProductCard product={product} index={index} />
-                    </motion.div>
+                    <ProductCard product={product} index={index} />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -744,10 +720,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="relative h-[280px] md:h-[350px] rounded-2xl overflow-hidden group">
             <Image
-              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200"
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1000&q=70"
               alt="Lastik Kampanya"
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              sizes="(max-width: 768px) 100vw, 1200px"
+              loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex items-end">
               <div className="p-6 md:p-10 w-full">
@@ -781,34 +759,29 @@ export default function HomePage() {
           
           {/* Category Cards with Images */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {categories.slice(0, 8).map((category, index) => (
-              <motion.div
+            {categories.slice(0, 8).map((category) => (
+              <Link
                 key={category.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
+                href={`/kategori/${category.categoryId}`}
+                className="group block"
               >
-                <Link
-                  href={`/kategori/${category.categoryId}`}
-                  className="group block"
-                >
-                  <div className="relative h-28 md:h-36 rounded-2xl overflow-hidden bg-gray-100">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      unoptimized
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-3">
-                      <h3 className="text-white font-semibold text-sm md:text-base">
-                        {category.name}
-                      </h3>
-                    </div>
+                <div className="relative h-28 md:h-36 rounded-2xl overflow-hidden bg-gray-100">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3">
+                    <h3 className="text-white font-semibold text-sm md:text-base">
+                      {category.name}
+                    </h3>
                   </div>
-                </Link>
-              </motion.div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -821,10 +794,12 @@ export default function HomePage() {
             <Link href="/kategori/motorsiklet-lastikleri" className="group">
               <div className="relative h-48 md:h-56 rounded-2xl overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800"
+                  src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&q=70"
                   alt="Motorsiklet Lastikleri"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex items-center p-6">
                   <div>
@@ -841,10 +816,12 @@ export default function HomePage() {
             <Link href="/kategori/is-makinesi-lastikleri" className="group">
               <div className="relative h-48 md:h-56 rounded-2xl overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=800"
+                  src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=600&q=70"
                   alt="İş Makinesi Lastikleri"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex items-center p-6">
                   <div>

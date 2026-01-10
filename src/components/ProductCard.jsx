@@ -1,8 +1,8 @@
 'use client';
 
+import { memo, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { HiOutlineHeart, HiHeart, HiOutlineShoppingCart } from 'react-icons/hi';
 import { useWishlist } from '@/context/WishlistContext';
 import { useCart } from '@/context/CartContext';
@@ -19,7 +19,18 @@ const pastelColors = [
   'bg-rose-50',
 ];
 
-export default function ProductCard({ product, index = 0 }) {
+// Lastik kategorileri
+const lastikCategories = ['kis-lastikleri', 'yaz-lastikleri', 'dört-mevsim-lastikler', 'motorsiklet-lastikleri', 'agir-vasita-lastikleri', 'is-makinesi-lastikleri'];
+
+// Price formatter - singleton
+const priceFormatter = new Intl.NumberFormat('tr-TR', {
+  style: 'currency',
+  currency: 'TRY',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
+
+const ProductCard = memo(function ProductCard({ product, index = 0 }) {
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
   const isWishlisted = isInWishlist(product.id);
@@ -28,68 +39,48 @@ export default function ProductCard({ product, index = 0 }) {
   const colorIndex = product.name ? product.name.charCodeAt(0) % pastelColors.length : index % pastelColors.length;
   const bgColor = pastelColors[colorIndex];
 
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('tr-TR', {
-      style: 'currency',
-      currency: 'TRY',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
-
-  const handleAddToCart = (e) => {
+  const handleAddToCart = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product, 1);
-  };
+  }, [addToCart, product]);
 
-  // Sadece ilk 12 ürün için animasyon, gerisi anında görünsün
-  const shouldAnimate = index < 12;
+  const handleToggleWishlist = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(product);
+  }, [toggleWishlist, product]);
+
+  const isLastik = lastikCategories.includes(product.category);
   
   return (
-    <motion.div
-      initial={shouldAnimate ? { opacity: 0, y: 20 } : false}
-      animate={{ opacity: 1, y: 0 }}
-      transition={shouldAnimate ? { delay: index * 0.03, duration: 0.2 } : { duration: 0 }}
-      className="group relative"
-    >
+    <div className="group relative">
       <Link href={`/urun/${product.id}`} className="block touch-manipulation">
-        <div className="bg-white rounded-2xl overflow-hidden shadow-sm md:hover:shadow-lg transition-all duration-300 border border-gray-100">
+        <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-100">
           {/* Image Container with Pastel Background */}
           <div className={`relative aspect-square ${bgColor} p-4`}>
             <Image
               src={product.images?.[0] || '/placeholder.png'}
               alt={product.name}
               fill
-              className="object-contain md:group-hover:scale-105 transition-transform duration-500 p-2"
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              unoptimized
-              loader={({ src }) => src}
-              onError={(e) => {
-                e.target.src = '/placeholder.png';
-              }}
+              className="object-contain p-2"
+              sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBEQCEAwEPwAB/AP/Z"
             />
             
             {/* Wishlist Button */}
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleWishlist(product);
-              }}
-              className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:shadow-lg transition-all z-10"
+              onClick={handleToggleWishlist}
+              className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:shadow-lg transition-shadow z-10"
+              aria-label={isWishlisted ? "Favorilerden çıkar" : "Favorilere ekle"}
             >
-              <motion.div
-                initial={false}
-                animate={{ scale: isWishlisted ? [1, 1.3, 1] : 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                {isWishlisted ? (
-                  <HiHeart className="w-5 h-5 text-red-500" />
-                ) : (
-                  <HiOutlineHeart className="w-5 h-5 text-gray-400" />
-                )}
-              </motion.div>
+              {isWishlisted ? (
+                <HiHeart className="w-5 h-5 text-red-500" />
+              ) : (
+                <HiOutlineHeart className="w-5 h-5 text-gray-400" />
+              )}
             </button>
 
             {/* Discount Badge */}
@@ -101,7 +92,7 @@ export default function ProductCard({ product, index = 0 }) {
           </div>
 
           {/* Lastik Campaign Badge - Jant ve Yağlar hariç */}
-          {['kis-lastikleri', 'yaz-lastikleri', 'dört-mevsim-lastikler', 'motorsiklet-lastikleri', 'agir-vasita-lastikleri', 'is-makinesi-lastikleri'].includes(product.category) && (
+          {isLastik && (
             <div className="relative bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 px-2 py-1 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
               <p className="text-white text-[10px] font-semibold text-center relative z-10">4 AL 3 ÖDE</p>
@@ -118,27 +109,29 @@ export default function ProductCard({ product, index = 0 }) {
             <div className="flex items-center justify-between">
               <div className="flex flex-col">
                 <span className="font-bold text-base text-gray-900">
-                  {formatPrice(product.price)}
+                  {priceFormatter.format(product.price)}
                 </span>
                 {product.originalPrice && product.originalPrice > product.price && (
                   <span className="text-xs text-gray-400 line-through">
-                    {formatPrice(product.originalPrice)}
+                    {priceFormatter.format(product.originalPrice)}
                   </span>
                 )}
               </div>
               
               {/* Small Cart Icon Button */}
-              <motion.button 
-                whileTap={{ scale: 0.9 }}
+              <button 
                 onClick={handleAddToCart}
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-900 text-white hover:bg-red-500 transition-colors shadow-sm"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-900 text-white hover:bg-red-500 active:scale-95 transition-all shadow-sm"
+                aria-label="Sepete ekle"
               >
                 <HiOutlineShoppingCart className="w-4 h-4" />
-              </motion.button>
+              </button>
             </div>
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   );
-}
+});
+
+export default ProductCard;

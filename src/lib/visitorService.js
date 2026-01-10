@@ -67,23 +67,40 @@ export const getDeviceInfo = () => {
   };
 };
 
-// Get IP address using external service
+// Get IP address using external service with timeout
 export const getIPAddress = async () => {
   try {
-    const response = await fetch('https://api.ipify.org?format=json');
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+    
+    const response = await fetch('https://api.ipify.org?format=json', {
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    
+    if (!response.ok) throw new Error('IP API error');
     const data = await response.json();
     return data.ip;
   } catch (error) {
-    console.error('IP alınamadı:', error);
+    // Silently fail - don't log to avoid console spam
     return 'Bilinmiyor';
   }
 };
 
-// Get location from IP
+// Get location from IP with timeout
 export const getLocationFromIP = async (ip) => {
   try {
     if (ip === 'Bilinmiyor') return { city: 'Bilinmiyor', country: 'Bilinmiyor' };
-    const response = await fetch(`https://ipapi.co/${ip}/json/`);
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+    
+    const response = await fetch(`https://ipapi.co/${ip}/json/`, {
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    
+    if (!response.ok) throw new Error('Location API error');
     const data = await response.json();
     return {
       city: data.city || 'Bilinmiyor',
@@ -91,7 +108,7 @@ export const getLocationFromIP = async (ip) => {
       region: data.region || 'Bilinmiyor'
     };
   } catch (error) {
-    console.error('Lokasyon alınamadı:', error);
+    // Silently fail - don't log to avoid console spam
     return { city: 'Bilinmiyor', country: 'Bilinmiyor' };
   }
 };
@@ -107,25 +124,26 @@ const isVisitorStale = (lastActivity) => {
   return lastActivityDate < staleThreshold;
 };
 
-// Register visitor as active
+// Register visitor as active (non-blocking)
 export const registerVisitor = async (visitorId) => {
   try {
     const deviceInfo = getDeviceInfo();
-    const ip = await getIPAddress();
-    const location = await getLocationFromIP(ip);
     
+    // Get basic visitor data first without waiting for external APIs
     const visitorData = {
       visitorId,
-      ip,
+      ip: 'Yükleniyor...',
       ...deviceInfo,
-      ...location,
-      currentPage: window.location.pathname,
-      referrer: document.referrer || 'Doğrudan',
+      city: 'Yükleniyor...',
+      country: 'Yükleniyor...',
+      currentPage: typeof window !== 'undefined' ? window.location.pathname : '/',
+      referrer: typeof document !== 'undefined' ? (document.referrer || 'Doğrudan') : 'Doğrudan',
       enteredAt: serverTimestamp(),
       lastActivity: serverTimestamp(),
       isActive: true
     };
     
+    // Save immediately with basic data
     await setDoc(doc(db, VISITORS_COLLECTION, visitorId), visitorData);
     
     // Also save to history
@@ -134,12 +152,33 @@ export const registerVisitor = async (visitorId) => {
       exitedAt: null
     });
     
-    // Clean up stale visitors whenever a new visitor registers
-    cleanupStaleVisitors();
+    // Fetch IP and location in background (non-blocking)
+    getIPAddress().then(async (ip) => {
+      if (ip && ip !== 'Bilinmiyor') {
+        const location = await getLocationFromIP(ip);
+        try {
+          await updateDoc(doc(db, VISITORS_COLLECTION, visitorId), {
+            ip,
+            ...location
+          });
+          await updateDoc(doc(db, VISITOR_HISTORY_COLLECTION, visitorId), {
+            ip,
+            ...location
+          });
+        } catch (e) {
+          // Document might have been deleted, ignore
+        }
+      }
+    }).catch(() => {
+      // Silently ignore IP/location errors
+    });
+    
+    // Clean up stale visitors in background
+    setTimeout(() => cleanupStaleVisitors(), 1000);
     
     return visitorData;
   } catch (error) {
-    console.error('Ziyaretçi kaydedilemedi:', error);
+    // Silently fail - don't block page load
     return null;
   }
 };

@@ -31,20 +31,19 @@ import { useAuth } from '@/context/AuthContext';
 import { useProducts } from '@/context/ProductsContext';
 import PromoBanner from './PromoBanner';
 
-// Animated Logo Component - Stylized Text
+// Animated Logo Component - Image
 function Logo() {
   return (
     <Link href="/" className="flex items-center group">
       <div className="relative overflow-hidden">
-        <span 
-          className="text-2xl font-black tracking-tight bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-500 bg-clip-text text-transparent transform -rotate-3 inline-block hover:rotate-0 transition-transform duration-300"
-          style={{ 
-            fontFamily: "'Poppins', sans-serif",
-          }}
-        >
-          lastikalsana
-        </span>
-        <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-zinc-800 via-zinc-600 to-zinc-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+        <Image
+          src="/logo3.png"
+          alt="Lastik Alsana"
+          width={120}
+          height={20}
+          className="h-8 w-auto object-contain transform hover:scale-105 transition-transform duration-300"
+          priority
+        />
       </div>
     </Link>
   );

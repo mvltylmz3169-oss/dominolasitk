@@ -26,8 +26,10 @@ import {
   HiOutlineBadgeCheck,
   HiOutlineRefresh,
   HiOutlineClock,
-  HiOutlineGift
+  HiOutlineGift,
+  HiOutlineDocumentText
 } from 'react-icons/hi';
+import { FaShieldAlt } from 'react-icons/fa';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useProducts } from '@/context/ProductsContext';
@@ -604,6 +606,28 @@ export default function ProductPage({ params }) {
                 </button>
               </motion.div>
             )}
+
+            {/* ETBİS Information */}
+            <div className="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-100 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
+                  <FaShieldAlt className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-gray-900">ETBİS Kayıtlı Site</h3>
+                  <p className="text-xs text-gray-600 mt-0.5">Sitemiz T.C. Ticaret Bakanlığı ETBİS sistemine kayıtlıdır.</p>
+                </div>
+              </div>
+              <Link
+                href="https://etbis.ticaret.gov.tr/tr/Anasayfa/SiteAraSonuc?siteId=752d043e-c420-4c9e-9ce1-e466bc9ec869"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-semibold rounded-lg transition-all shadow-md hover:shadow-lg"
+              >
+                <HiOutlineDocumentText className="w-4 h-4" />
+                Siteyi Sorgula
+              </Link>
+            </div>
           </div>
         )}
       </div>
