@@ -1990,9 +1990,9 @@ export default function CheckoutPage() {
               <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
                 <h3 className="text-sm font-bold text-gray-800 mb-3 pb-2 border-b border-gray-300">Ticari Bilgilerimiz:</h3>
                 <div className="space-y-1.5 text-sm text-gray-700">
-                  <p><span className="font-medium">Firma Ünvanı:</span> <span className="font-bold">Oto  Market 360 İthalat İhracat Ticaret Ltd. Şti.</span></p>
-                  <p><span className="font-medium">Vergi No:</span> <span className="font-bold">2340020612</span></p>
-                  <p><span className="font-medium">MERSİS No:</span> <span className="font-bold">0234002061200011</span></p>
+                  <p><span className="font-medium">Firma Ünvanı:</span> <span className="font-bold">Lastik Alsana İthalat İhracat Ticaret Ltd. Şti.</span></p>
+                  <p><span className="font-medium">Vergi No:</span> <span className="font-bold">39XXXXXXX</span></p>
+                  <p><span className="font-medium">MERSİS No:</span> <span className="font-bold">039XXXXXXXXXXXXX</span></p>
                 </div>
                 
                 {/* Security & Payment Logos */}
