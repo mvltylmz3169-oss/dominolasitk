@@ -62,7 +62,7 @@ function SearchContent() {
               Farklı anahtar kelimeler deneyebilirsiniz.
             </p>
             <div className="flex flex-wrap justify-center gap-2">
-              {['Koltuk', 'Yatak', 'Buzdolabı', 'Masa', 'Sandalye'].map((suggestion) => (
+              {['Kış Lastiği', 'Yaz Lastiği', 'Jant', 'Motor Yağı', 'Bridgestone'].map((suggestion) => (
                 <a
                   key={suggestion}
                   href={`/ara?q=${suggestion}`}

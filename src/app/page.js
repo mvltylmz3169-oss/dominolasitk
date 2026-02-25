@@ -320,16 +320,16 @@ export default function HomePage() {
               <Swiper
                 modules={[FreeMode]}
                 spaceBetween={16}
-                slidesPerView={2.2}
+                slidesPerView={1.9}
                 freeMode={true}
                 grabCursor={true}
                 watchSlidesProgress={false}
                 breakpoints={{
-                  480: { slidesPerView: 2.5, spaceBetween: 16 },
-                  640: { slidesPerView: 3.2, spaceBetween: 16 },
-                  768: { slidesPerView: 3.5, spaceBetween: 20 },
-                  1024: { slidesPerView: 4.5, spaceBetween: 20 },
-                  1280: { slidesPerView: 5.2, spaceBetween: 24 },
+                  480: { slidesPerView: 2.1, spaceBetween: 16 },
+                  640: { slidesPerView: 2.7, spaceBetween: 16 },
+                  768: { slidesPerView: 3.0, spaceBetween: 20 },
+                  1024: { slidesPerView: 3.8, spaceBetween: 20 },
+                  1280: { slidesPerView: 4.4, spaceBetween: 24 },
                 }}
               >
                 {selectedForYouProducts.map((product, index) => (
@@ -493,16 +493,16 @@ export default function HomePage() {
               <Swiper
                 modules={[FreeMode]}
                 spaceBetween={16}
-                slidesPerView={2.2}
+                slidesPerView={1.9}
                 freeMode={true}
                 grabCursor={true}
                 watchSlidesProgress={false}
                 breakpoints={{
-                  480: { slidesPerView: 2.5, spaceBetween: 16 },
-                  640: { slidesPerView: 3.2, spaceBetween: 16 },
-                  768: { slidesPerView: 3.5, spaceBetween: 20 },
-                  1024: { slidesPerView: 4.5, spaceBetween: 20 },
-                  1280: { slidesPerView: 5.2, spaceBetween: 24 },
+                  480: { slidesPerView: 2.1, spaceBetween: 16 },
+                  640: { slidesPerView: 2.7, spaceBetween: 16 },
+                  768: { slidesPerView: 3.0, spaceBetween: 20 },
+                  1024: { slidesPerView: 3.8, spaceBetween: 20 },
+                  1280: { slidesPerView: 4.4, spaceBetween: 24 },
                 }}
               >
                 {featuredProducts.map((product, index) => (
@@ -588,16 +588,16 @@ export default function HomePage() {
               <Swiper
                 modules={[FreeMode]}
                 spaceBetween={16}
-                slidesPerView={2.2}
+                slidesPerView={1.9}
                 freeMode={true}
                 grabCursor={true}
                 watchSlidesProgress={false}
                 breakpoints={{
-                  480: { slidesPerView: 2.5, spaceBetween: 16 },
-                  640: { slidesPerView: 3.2, spaceBetween: 16 },
-                  768: { slidesPerView: 3.5, spaceBetween: 20 },
-                  1024: { slidesPerView: 4.5, spaceBetween: 20 },
-                  1280: { slidesPerView: 5.2, spaceBetween: 24 },
+                  480: { slidesPerView: 2.1, spaceBetween: 16 },
+                  640: { slidesPerView: 2.7, spaceBetween: 16 },
+                  768: { slidesPerView: 3.0, spaceBetween: 20 },
+                  1024: { slidesPerView: 3.8, spaceBetween: 20 },
+                  1280: { slidesPerView: 4.4, spaceBetween: 24 },
                 }}
               >
                 {schoolShoppingProducts.map((product, index) => (
@@ -681,16 +681,16 @@ export default function HomePage() {
               <Swiper
                 modules={[FreeMode]}
                 spaceBetween={16}
-                slidesPerView={2.2}
+                slidesPerView={1.9}
                 freeMode={true}
                 grabCursor={true}
                 watchSlidesProgress={false}
                 breakpoints={{
-                  480: { slidesPerView: 2.5, spaceBetween: 16 },
-                  640: { slidesPerView: 3.2, spaceBetween: 16 },
-                  768: { slidesPerView: 3.5, spaceBetween: 20 },
-                  1024: { slidesPerView: 4.5, spaceBetween: 20 },
-                  1280: { slidesPerView: 5.2, spaceBetween: 24 },
+                  480: { slidesPerView: 2.1, spaceBetween: 16 },
+                  640: { slidesPerView: 2.7, spaceBetween: 16 },
+                  768: { slidesPerView: 3.0, spaceBetween: 20 },
+                  1024: { slidesPerView: 3.8, spaceBetween: 20 },
+                  1280: { slidesPerView: 4.4, spaceBetween: 24 },
                 }}
               >
                 {mostFavoritedProducts.map((product, index) => (

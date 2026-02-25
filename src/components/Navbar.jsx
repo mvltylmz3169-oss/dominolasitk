@@ -212,19 +212,26 @@ export default function Navbar() {
               
               {/* Quick Links */}
               <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Popüler Aramalar</h3>
+                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Popüler Kategoriler</h3>
                 <div className="flex flex-wrap gap-2">
-                  {['Kış Lastiği', 'Yaz Lastiği', 'Jant', 'Motor Yağı', '4 Mevsim', 'Ağır Vasıta'].map((term) => (
+                  {[
+                    { label: 'Kış Lastiği', href: '/kategori/kis-lastikleri' },
+                    { label: 'Yaz Lastiği', href: '/kategori/yaz-lastikleri' },
+                    { label: 'Jant', href: '/kategori/jant' },
+                    { label: 'Motor Yağı', href: '/kategori/motor-yaglari' },
+                    { label: '4 Mevsim', href: '/kategori/d%C3%B6rt-mevsim-lastikler' },
+                    { label: 'Ağır Vasıta', href: '/kategori/agir-vasita-lastikleri' },
+                    { label: 'Elektrikli Araç', href: '/kategori/earac-lastikleri' },
+                  ].map((item) => (
                     <button
-                      key={term}
+                      key={item.label}
                       onClick={() => {
-                        setSearchQuery(term);
-                        router.push(`/ara?q=${encodeURIComponent(term)}`);
+                        router.push(item.href);
                         setIsSearchOpen(false);
                       }}
                       className="px-4 py-2 bg-gray-100 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors"
                     >
-                      {term}
+                      {item.label}
                     </button>
                   ))}
                 </div>

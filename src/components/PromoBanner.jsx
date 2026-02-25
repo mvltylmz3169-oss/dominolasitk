@@ -108,8 +108,6 @@ export default function PromoBanner() {
         <div className="relative h-full flex items-center justify-center">
           {/* Center - Main Message */}
           <div className="flex items-center gap-2">
-            <span className="text-sm animate-pulse">☪</span>
-            
             <div className="flex items-center gap-2">
               <span className="text-[10px] sm:text-xs font-bold tracking-wide bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 bg-clip-text text-transparent">
                 RAMAZAN KAMPANYASI
@@ -118,8 +116,6 @@ export default function PromoBanner() {
                 Tüm Lastiklerde %45'e varan indirim
               </span>
             </div>
-            
-            <span className="text-sm animate-pulse">☪</span>
           </div>
         </div>
       </motion.div>

@@ -57,6 +57,26 @@ const collectionConfig = {
     accentColor: 'pink',
     getProducts: (ctx) => ctx.getMostFavoritedProducts(),
     heroImage: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=1200'
+  },
+  'kis-lastikleri': {
+    title: 'Kışın En Güçlü Lastikleri',
+    subtitle: 'Kar ve buzda güvenli sürüş',
+    icon: HiOutlineSparkles,
+    gradient: 'from-red-500 to-orange-500',
+    bgGradient: 'from-red-50/50 to-gray-50',
+    accentColor: 'red',
+    getProducts: (ctx) => ctx.getFeaturedProducts(),
+    heroImage: 'https://images.unsplash.com/photo-1516912481808-3406841bd33c?w=1200'
+  },
+  'yaglar-jantlar': {
+    title: 'Yağlar & Jantlar',
+    subtitle: 'Motor yağları ve premium jantlar',
+    icon: HiOutlineAdjustments,
+    gradient: 'from-amber-500 to-orange-500',
+    bgGradient: 'from-amber-50/50 to-gray-50',
+    accentColor: 'amber',
+    getProducts: (ctx) => ctx.getMostFavoritedProducts(),
+    heroImage: 'https://images.unsplash.com/photo-1611821064430-0d40291d0f0b?w=1200'
   }
 };
 

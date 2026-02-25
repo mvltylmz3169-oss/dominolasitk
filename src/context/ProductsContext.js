@@ -141,14 +141,40 @@ export function ProductsProvider({ children }) {
       .sort((a, b) => (b.discount || 0) - (a.discount || 0));
   };
 
+  // Türkçe karakter normalizasyonu
+  const normalizeTurkish = (str) => {
+    if (!str) return '';
+    return str.toLowerCase()
+      .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ü/g, 'u')
+      .replace(/ş/g, 's').replace(/ç/g, 'c').replace(/ğ/g, 'g')
+      .replace(/İ/g, 'i').replace(/Ö/g, 'o').replace(/Ü/g, 'u')
+      .replace(/Ş/g, 's').replace(/Ç/g, 'c').replace(/Ğ/g, 'g');
+  };
+
   // Ürün ara
   const searchProducts = (query) => {
-    const lowercaseQuery = query.toLowerCase();
-    return products.filter(product => 
-      product.name?.toLowerCase().includes(lowercaseQuery) ||
-      product.description?.toLowerCase().includes(lowercaseQuery) ||
-      product.category?.toLowerCase().includes(lowercaseQuery)
-    );
+    if (!query || query.trim().length === 0) return [];
+
+    const normalizedQuery = normalizeTurkish(query);
+    const queryWords = normalizedQuery.split(/\s+/).filter(w => w.length >= 1);
+    if (queryWords.length === 0) return [];
+
+    const categoryNameMap = {};
+    categories.forEach(c => {
+      categoryNameMap[c.categoryId] = c.name;
+    });
+
+    return products.filter(product => {
+      const catName = categoryNameMap[product.category] || '';
+      const searchableText = normalizeTurkish(
+        `${product.name || ''} ${product.description || ''} ${(product.category || '').replace(/-/g, ' ')} ${catName}`
+      );
+
+      return queryWords.every(word => {
+        const stem = word.length > 4 ? word.substring(0, 4) : word;
+        return searchableText.includes(stem);
+      });
+    });
   };
 
   // Kategori getir - categoryId veya document id ile ara

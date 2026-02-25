@@ -3,7 +3,7 @@
 import { memo, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { HiOutlineHeart, HiHeart, HiOutlineShoppingCart } from 'react-icons/hi';
+import { HiOutlineHeart, HiHeart, HiOutlineShoppingCart, HiStar } from 'react-icons/hi';
 import { useWishlist } from '@/context/WishlistContext';
 import { useCart } from '@/context/CartContext';
 
@@ -101,9 +101,23 @@ const ProductCard = memo(function ProductCard({ product, index = 0 }) {
 
           {/* Content */}
           <div className="p-3">
-            <h3 className="font-semibold text-sm text-gray-800 line-clamp-1 mb-2">
+            <h3 className="font-semibold text-sm text-gray-800 line-clamp-1 mb-1">
               {product.name}
             </h3>
+
+            {/* Rating & Reviews */}
+            <div className="flex items-center gap-1 mb-2">
+              <div className="flex items-center">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <HiStar
+                    key={star}
+                    className={`w-3 h-3 ${star <= Math.round(product.rating || 4.5) ? 'text-amber-400' : 'text-gray-200'}`}
+                  />
+                ))}
+              </div>
+              <span className="text-xs font-semibold text-gray-700">{product.rating || 4.5}</span>
+              <span className="text-xs text-gray-400">({product.reviews || 0})</span>
+            </div>
             
             {/* Price and Cart Button Row */}
             <div className="flex items-center justify-between">

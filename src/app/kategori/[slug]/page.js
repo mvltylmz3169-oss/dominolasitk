@@ -147,12 +147,9 @@ export default function CategoryPage({ params }) {
       {/* Header */}
       <div className="bg-white border-b border-gray-100 px-4 py-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-4xl">{category.icon}</span>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">{category.name}</h1>
-              <p className="text-sm text-gray-500">{filteredProducts.length} ürün</p>
-            </div>
+          <div className="mb-4">
+            <h1 className="text-2xl font-bold text-gray-900">{category.name}</h1>
+            <p className="text-sm text-gray-500">{filteredProducts.length} ürün</p>
           </div>
 
           {/* Search */}
