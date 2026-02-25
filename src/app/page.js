@@ -360,75 +360,8 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Featured Products - Kışın En Güçlü Lastikleri */}
-      {(isLoading || featuredProducts.length > 0) && (
-        <section className="py-8 bg-gradient-to-b from-white to-gray-50">
-          <div className="max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-6 px-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center shadow-lg shadow-red-500/30">
-                  <GiCarWheel className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-gray-900">Kışın En Güçlü Lastikleri</h2>
-                  <p className="text-sm text-gray-500">Kar ve buzda güvenli sürüş</p>
-                </div>
-              </div>
-              <Link 
-                href="/firsatlar" 
-                className="hidden sm:flex items-center gap-1 px-4 py-2 bg-red-50 text-red-600 rounded-full text-sm font-medium hover:bg-red-100 transition-colors"
-              >
-                Tümünü Gör <HiOutlineChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-            
-            {/* Swiper Carousel or Skeleton */}
-            <div className="relative group px-4">
-              {isLoading ? (
-                <ProductSectionSkeleton />
-              ) : (
-              <Swiper
-                modules={[FreeMode]}
-                spaceBetween={16}
-                slidesPerView={2.2}
-                freeMode={true}
-                grabCursor={true}
-                watchSlidesProgress={false}
-                breakpoints={{
-                  480: { slidesPerView: 2.5, spaceBetween: 16 },
-                  640: { slidesPerView: 3.2, spaceBetween: 16 },
-                  768: { slidesPerView: 3.5, spaceBetween: 20 },
-                  1024: { slidesPerView: 4.5, spaceBetween: 20 },
-                  1280: { slidesPerView: 5.2, spaceBetween: 24 },
-                }}
-              >
-                {featuredProducts.map((product, index) => (
-                  <SwiperSlide key={product.id}>
-                    <ProductCard product={product} index={index} />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              )}
-            </div>
-
-            {/* Tümünü Gör Butonu */}
-            <div className="flex justify-start mt-5 px-4">
-              <Link
-                href="/koleksiyon/kis-lastikleri"
-                className="group relative inline-flex items-center gap-1.5 px-5 py-2 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-semibold rounded-full shadow-md shadow-red-500/25 hover:shadow-lg hover:shadow-red-500/35 transition-all hover:scale-105 overflow-hidden"
-              >
-                <span className="relative z-10">Tümünü Gör</span>
-                <HiOutlineChevronRight className="w-4 h-4 relative z-10 group-hover:translate-x-0.5 transition-transform" />
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Customer Reviews - Animated Horizontal Scroll */}
-      <section className="py-6 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+       {/* Customer Reviews - Animated Horizontal Scroll */}
+       <section className="py-6 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 mb-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-md shadow-orange-500/20">
@@ -528,6 +461,75 @@ export default function HomePage() {
           }
         `}</style>
       </section>
+
+      {/* Featured Products - Kışın En Güçlü Lastikleri */}
+      {(isLoading || featuredProducts.length > 0) && (
+        <section className="py-8 bg-gradient-to-b from-white to-gray-50">
+          <div className="max-w-7xl mx-auto">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6 px-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center shadow-lg shadow-red-500/30">
+                  <GiCarWheel className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">Kışın En Güçlü Lastikleri</h2>
+                  <p className="text-sm text-gray-500">Kar ve buzda güvenli sürüş</p>
+                </div>
+              </div>
+              <Link 
+                href="/firsatlar" 
+                className="hidden sm:flex items-center gap-1 px-4 py-2 bg-red-50 text-red-600 rounded-full text-sm font-medium hover:bg-red-100 transition-colors"
+              >
+                Tümünü Gör <HiOutlineChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+            
+            {/* Swiper Carousel or Skeleton */}
+            <div className="relative group px-4">
+              {isLoading ? (
+                <ProductSectionSkeleton />
+              ) : (
+              <Swiper
+                modules={[FreeMode]}
+                spaceBetween={16}
+                slidesPerView={2.2}
+                freeMode={true}
+                grabCursor={true}
+                watchSlidesProgress={false}
+                breakpoints={{
+                  480: { slidesPerView: 2.5, spaceBetween: 16 },
+                  640: { slidesPerView: 3.2, spaceBetween: 16 },
+                  768: { slidesPerView: 3.5, spaceBetween: 20 },
+                  1024: { slidesPerView: 4.5, spaceBetween: 20 },
+                  1280: { slidesPerView: 5.2, spaceBetween: 24 },
+                }}
+              >
+                {featuredProducts.map((product, index) => (
+                  <SwiperSlide key={product.id}>
+                    <ProductCard product={product} index={index} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              )}
+            </div>
+
+            {/* Tümünü Gör Butonu */}
+            <div className="flex justify-start mt-5 px-4">
+              <Link
+                href="/koleksiyon/kis-lastikleri"
+                className="group relative inline-flex items-center gap-1.5 px-5 py-2 bg-gradient-to-r from-red-500 to-orange-500 text-white text-sm font-semibold rounded-full shadow-md shadow-red-500/25 hover:shadow-lg hover:shadow-red-500/35 transition-all hover:scale-105 overflow-hidden"
+              >
+                <span className="relative z-10">Tümünü Gör</span>
+                <HiOutlineChevronRight className="w-4 h-4 relative z-10 group-hover:translate-x-0.5 transition-transform" />
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+     
 
       {/* Banner 1 - Kış Lastiği Görseli */}
       <section className="py-4 px-4">

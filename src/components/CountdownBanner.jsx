@@ -44,7 +44,7 @@ export default function CountdownBanner() {
       <div 
         className="relative overflow-hidden rounded-2xl"
         style={{
-          background: 'linear-gradient(135deg, #ff6b6b 0%, #ff8e53 25%, #ff6b9d 50%, #c44569 75%, #ff6b6b 100%)',
+          background: 'linear-gradient(135deg, #0d9488 0%, #065f46 25%, #0f766e 50%, #047857 75%, #0d9488 100%)',
           backgroundSize: '200% 200%',
         }}
       >
@@ -52,7 +52,7 @@ export default function CountdownBanner() {
         <motion.div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(135deg, #ff6b6b 0%, #ff8e53 25%, #ff6b9d 50%, #c44569 75%, #ff6b6b 100%)',
+            background: 'linear-gradient(135deg, #0d9488 0%, #065f46 25%, #0f766e 50%, #047857 75%, #0d9488 100%)',
             backgroundSize: '200% 200%',
           }}
           animate={{
@@ -83,7 +83,7 @@ export default function CountdownBanner() {
         <div className="relative flex items-center justify-between px-4 py-4 sm:px-6">
           {/* Left side - Lightning icon and text */}
           <div className="flex items-center gap-3 sm:gap-4">
-            {/* Lightning icon */}
+            {/* Crescent icon */}
             <motion.div
               className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-xl"
               animate={{
@@ -95,21 +95,17 @@ export default function CountdownBanner() {
                 ease: 'easeInOut',
               }}
             >
-              <svg 
-                className="w-6 h-6 sm:w-7 sm:h-7 text-white drop-shadow-lg" 
-                viewBox="0 0 24 24" 
-                fill="currentColor"
-              >
-                <path d="M13 3L4 14h7l-2 7 9-11h-7l2-7z" />
+              <svg className="w-6 h-6 sm:w-7 sm:h-7 text-amber-300 drop-shadow-lg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
             </motion.div>
 
             {/* Text content */}
             <div className="flex flex-col">
               <span className="text-white font-bold text-sm sm:text-lg tracking-tight leading-tight drop-shadow-md">
-                Mükemmel Yıl Sonu İndirimleri
+                Ramazan'a Özel İndirimler
               </span>
-              <span className="text-white/80 text-xs sm:text-sm font-medium tracking-wide">
+              <span className="text-amber-200/90 text-xs sm:text-sm font-medium tracking-wide">
                 Hemen Al, Fırsatı Kaçırma!
               </span>
             </div>
