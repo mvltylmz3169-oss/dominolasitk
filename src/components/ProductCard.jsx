@@ -20,7 +20,7 @@ const pastelColors = [
 ];
 
 // Lastik kategorileri
-const lastikCategories = ['kis-lastikleri', 'yaz-lastikleri', 'dört-mevsim-lastikler', 'motorsiklet-lastikleri', 'agir-vasita-lastikleri', 'is-makinesi-lastikleri'];
+const lastikCategories = ['kis-lastikleri', 'yaz-lastikleri', 'dört-mevsim-lastikler', 'motorsiklet-lastikleri', 'agir-vasita-lastikleri', 'earac-lastikleri'];
 
 // Price formatter - singleton
 const priceFormatter = new Intl.NumberFormat('tr-TR', {

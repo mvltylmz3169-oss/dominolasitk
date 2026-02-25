@@ -84,13 +84,13 @@ export default function SupportPage() {
             Tüm sorularınız için WhatsApp üzerinden iletişime geçebilirsiniz
           </p>
           <a
-            href="https://wa.me/905549948989"
+            href="https://wa.me/905533788148"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-2xl shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 transition-all duration-300 group"
           >
             <FaWhatsapp className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            <span className="text-md font-semibold tracking-wide">+90 554 994 89 89</span>
+            <span className="text-md font-semibold tracking-wide">+90 553 378 81 48</span>
           </a>
         </div>
       </div>
@@ -158,7 +158,7 @@ export default function SupportPage() {
             </div>
             <div>
               <p className="text-xs text-gray-500">Telefon</p>
-              <p className="font-medium text-gray-900">+90 554 994 89 89</p>
+              <p className="font-medium text-gray-900">+90 553 378 81 48</p>
             </div>
           </a>
           <a href="mailto:destek@lastikalsana.com" className="flex-1 p-4 bg-white border border-gray-100 rounded-2xl flex items-center gap-3 shadow-sm hover:shadow-md transition-shadow">

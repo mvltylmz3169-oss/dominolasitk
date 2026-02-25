@@ -18,7 +18,7 @@ const inter = Inter({
 export const metadata = {
   title: "Lastik Alsana - Kış Lastikleri, Yaz Lastikleri, Jantlar & Motor Yağları",
   description: "Lastik Alsana, kış lastikleri, yaz lastikleri, dört mevsim lastikler, jantlar, motor yağları ve ağır vasıta lastikleri. En uygun fiyatlarla güvenli alışveriş.",
-  keywords: "lastik, kış lastiği, yaz lastiği, dört mevsim lastik, jant, motor yağı, ağır vasıta lastiği, motorsiklet lastiği, iş makinesi lastiği",
+  keywords: "lastik, kış lastiği, yaz lastiği, dört mevsim lastik, jant, motor yağı, ağır vasıta lastiği, motorsiklet lastiği, elektrikli araç lastiği",
 };
 
 export const viewport = {

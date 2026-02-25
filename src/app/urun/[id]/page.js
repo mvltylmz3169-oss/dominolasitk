@@ -61,7 +61,7 @@ export default function ProductPage({ params }) {
     'dört-mevsim-lastikler',
     'motorsiklet-lastikleri',
     'agir-vasita-lastikleri',
-    'is-makinesi-lastikleri'
+    'earac-lastikleri'
   ];
   const isLastikCategory = product?.category && campaignCategories.includes(product.category);
   const campaignPrice = isCampaignApplied ? product?.price * 3 : product?.price * quantity;

@@ -207,7 +207,7 @@ export default function IptalVeIadePage() {
               İade ve iptal talepleriniz için aşağıdaki kanallardan bize ulaşabilirsiniz:
             </p>
             <div className="space-y-2">
-              <p><strong>WhatsApp:</strong> +90 554 994 89 89</p>
+              <p><strong>WhatsApp:</strong> +90 553 378 81 48</p>
               <p><strong>E-posta:</strong> iade@lastikalsana.com</p>
               <p><strong>Çalışma Saatleri:</strong> Pzt-Cmt 09:00 - 18:00</p>
             </div>

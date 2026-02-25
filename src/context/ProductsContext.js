@@ -66,9 +66,12 @@ export function ProductsProvider({ children }) {
 
   // Kategoriye göre ürünleri getir
   const getProductsByCategory = (categoryId) => {
-    // Decode URL encoded characters
     const decodedId = decodeURIComponent(categoryId);
-    return products.filter(p => p.category === decodedId || p.category === categoryId);
+    const category = categories.find(c => c.categoryId === decodedId || c.categoryId === categoryId);
+    if (category?.productCategoryId) {
+      return products.filter(p => p.category === category.productCategoryId && p.price > 0);
+    }
+    return products.filter(p => (p.category === decodedId || p.category === categoryId) && p.price > 0);
   };
 
   // Öne çıkan ürünleri getir (featured veya homepageSections'da 'featured' olanlar)

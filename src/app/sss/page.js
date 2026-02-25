@@ -80,7 +80,7 @@ export default function SSSPage() {
       questions: [
         {
           q: 'Müşteri hizmetlerine nasıl ulaşabilirim?',
-          a: 'WhatsApp hattımız +90 554 994 89 89 veya info@lastikalsana.com e-posta adresimiz üzerinden bize ulaşabilirsiniz. Çalışma saatlerimiz Pazartesi-Cumartesi 09:00-18:00\'dır.'
+          a: 'WhatsApp hattımız +90 553 378 81 48 veya info@lastikalsana.com e-posta adresimiz üzerinden bize ulaşabilirsiniz. Çalışma saatlerimiz Pazartesi-Cumartesi 09:00-18:00\'dır.'
         },
         {
           q: 'Ürünler orijinal mi?',
@@ -168,7 +168,7 @@ export default function SSSPage() {
               Cevabını bulamadığınız sorular için bizimle iletişime geçebilirsiniz.
             </p>
             <a 
-              href="https://wa.me/905549948989"
+              href="https://wa.me/905533788148"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-red-600 px-6 py-3 rounded-xl font-semibold hover:bg-red-50 transition-colors"

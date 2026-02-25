@@ -813,11 +813,11 @@ export default function HomePage() {
               </div>
             </Link>
             
-            <Link href="/kategori/is-makinesi-lastikleri" className="group">
+            <Link href="/kategori/earac-lastikleri" className="group">
               <div className="relative h-48 md:h-56 rounded-2xl overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=600&q=70"
-                  alt="İş Makinesi Lastikleri"
+                  src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&q=70"
+                  alt="Elektrikli Araç Lastikleri"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -825,11 +825,11 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex items-center p-6">
                   <div>
-                    <span className="inline-block px-3 py-1 bg-blue-500 rounded-full text-xs font-semibold text-white mb-2">
-                      Endüstriyel
+                    <span className="inline-block px-3 py-1 bg-emerald-500 rounded-full text-xs font-semibold text-white mb-2">
+                      Yeni Kategori
                     </span>
-                    <h3 className="text-2xl font-bold text-white mb-1">İş Makinesi Lastikleri</h3>
-                    <p className="text-white/80 text-sm">Ağır yük, dayanıklı lastikler</p>
+                    <h3 className="text-2xl font-bold text-white mb-1">Elektrikli Araç Lastikleri</h3>
+                    <p className="text-white/80 text-sm">Düşük yuvarlanma direnci, sessiz sürüş</p>
                   </div>
                 </div>
               </div>

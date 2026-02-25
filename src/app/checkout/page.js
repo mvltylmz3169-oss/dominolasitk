@@ -137,7 +137,7 @@ function FAQSection({ expandedFaq, setExpandedFaq }) {
 
 // Checkout Footer Component
 function CheckoutFooter() {
-  const phoneNumber = '905549948989';
+  const phoneNumber = '905533788148';
   const whatsappUrl = `https://wa.me/${phoneNumber}`;
 
   return (
@@ -189,7 +189,7 @@ function CheckoutFooter() {
           className="w-full max-w-xs flex items-center justify-center gap-3 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-2xl shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 transition-all duration-300"
         >
           <FaWhatsapp className="w-5 h-5" />
-          <span className="text-sm font-semibold tracking-wide">+90 554 994 89 89</span>
+          <span className="text-sm font-semibold tracking-wide">+90 553 378 81 48</span>
         </a>
         
         {/* Working Hours */}

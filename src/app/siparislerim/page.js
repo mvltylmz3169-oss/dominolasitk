@@ -288,7 +288,7 @@ function OrderCard({ order, isExpanded, onToggle }) {
 
               {/* Contact Support */}
               <a
-                href="https://wa.me/905549948989"
+                href="https://wa.me/905533788148"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-medium text-sm shadow-lg shadow-green-500/30"
@@ -306,7 +306,7 @@ function OrderCard({ order, isExpanded, onToggle }) {
 
 // Footer Component
 function OrdersFooter() {
-  const phoneNumber = '905549948989';
+  const phoneNumber = '905533788148';
   const whatsappUrl = `https://wa.me/${phoneNumber}`;
 
   return (
@@ -358,7 +358,7 @@ function OrdersFooter() {
           className="w-full max-w-xs flex items-center justify-center gap-3 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-2xl shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 transition-all duration-300"
         >
           <FaWhatsapp className="w-5 h-5" />
-          <span className="text-sm font-semibold tracking-wide">+90 554 994 89 89</span>
+          <span className="text-sm font-semibold tracking-wide">+90 553 378 81 48</span>
         </a>
         
         {/* Working Hours */}

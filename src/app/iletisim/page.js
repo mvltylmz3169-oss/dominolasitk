@@ -4,21 +4,21 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaClock, FaBuilding } 
 import Footer from '@/components/Footer';
 
 export default function IletisimPage() {
-  const phoneNumber = '905549948989';
+  const phoneNumber = '905533788148';
   const whatsappUrl = `https://wa.me/${phoneNumber}`;
 
   const contactInfo = [
     {
       icon: FaPhone,
       title: 'Telefon',
-      value: '+90 554 994 89 89',
-      link: 'tel:+905549948989',
+      value: '+90 553 378 81 48',
+      link: 'tel:+905533788148',
       color: 'bg-blue-100 text-blue-600'
     },
     {
       icon: FaWhatsapp,
       title: 'WhatsApp',
-      value: '+90 554 994 89 89',
+      value: '+90 553 378 81 48',
       link: whatsappUrl,
       color: 'bg-green-100 text-green-600'
     },

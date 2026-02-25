@@ -5,14 +5,15 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore, doc, setDoc, Timestamp } = require('firebase/firestore');
 
-// Firebase Config - dominolastik projesi
+// Firebase Config - lastikalsana projesi
 const firebaseConfig = {
-  apiKey: "AIzaSyAlb8h5trjojK_KbDu__15JolEsE5rAG38",
-  authDomain: "dominolastik-d109d.firebaseapp.com",
-  projectId: "dominolastik-d109d",
-  storageBucket: "dominolastik-d109d.firebasestorage.app",
-  messagingSenderId: "556504123794",
-  appId: "1:556504123794:web:645f0109aa1b3e3893994b"
+  apiKey: "AIzaSyAVMKGNVAodmoF8voVG4VKEgF98UMtasig",
+  authDomain: "lastikalsana-da880.firebaseapp.com",
+  projectId: "lastikalsana-da880",
+  storageBucket: "lastikalsana-da880.firebasestorage.app",
+  messagingSenderId: "406529038310",
+  appId: "1:406529038310:web:485655f7d0279e25a52827",
+  measurementId: "G-Q6SCJDZEMQ"
 };
 
 // Initialize Firebase
@@ -78,11 +79,11 @@ const categories = [
     order: 7
   },
   {
-    categoryId: "is-makinesi-lastikleri",
-    name: "İş Makinesi Lastikleri",
-    description: "İş makineleri için endüstriyel lastikler",
-    icon: "🚜",
-    image: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=600",
+    categoryId: "earac-lastikleri",
+    name: "Elektrikli Araç Lastikleri",
+    description: "Elektrikli araçlar için özel üretilmiş düşük yuvarlanma dirençli lastikler",
+    icon: "⚡",
+    image: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600",
     order: 8
   }
 ];

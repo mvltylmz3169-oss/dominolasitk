@@ -126,7 +126,7 @@ export default function Navbar() {
             {/* Left Side - WhatsApp Button */}
             <div className="flex items-center">
               <a
-                href="https://wa.me/905549948989"
+                href="https://wa.me/905533788148"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
@@ -391,7 +391,7 @@ export default function Navbar() {
                   </div>
                   <div>
                     <p className="text-xs text-gray-500">7/24 Müşteri Hizmetleri</p>
-                    <p className="font-semibold text-gray-900">+90 554 994 89 89</p>
+                    <p className="font-semibold text-gray-900">+90 553 378 81 48</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
