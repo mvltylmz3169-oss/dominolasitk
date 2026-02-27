@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
     setError('');
 
     setTimeout(() => {
-      if (username === '10ocak2026' && password === '31693169') {
+      if (username === '27şubat2026' && password === 'Mm316969-') {
         localStorage.setItem('admin_auth', 'true');
         router.push('/admin/dashboard');
       } else {
