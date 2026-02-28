@@ -1,5 +1,7 @@
 'use client';
 
+import { isAdminAuthenticated, clearAdminAuth } from '@/lib/adminAuth';
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -37,8 +39,7 @@ export default function HomepageSectionsPage() {
   const [draggedProduct, setDraggedProduct] = useState(null);
 
   useEffect(() => {
-    const adminAuth = localStorage.getItem('admin_auth');
-    if (adminAuth !== 'true') {
+    if (!isAdminAuthenticated()) {
       router.push('/admin');
       return;
     }

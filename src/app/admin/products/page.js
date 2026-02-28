@@ -1,5 +1,7 @@
 'use client';
 
+import { isAdminAuthenticated, clearAdminAuth } from '@/lib/adminAuth';
+
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -32,8 +34,7 @@ function AdminProductsContent() {
   const [isDeletingCategory, setIsDeletingCategory] = useState(false);
 
   useEffect(() => {
-    const adminAuth = localStorage.getItem('admin_auth');
-    if (adminAuth !== 'true') {
+    if (!isAdminAuthenticated()) {
       router.push('/admin');
     }
   }, [router]);

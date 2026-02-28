@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { HiOutlineLockClosed, HiOutlineUser } from 'react-icons/hi';
+import { isAdminAuthenticated, setAdminAuthenticated } from '@/lib/adminAuth';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -13,8 +14,7 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const adminAuth = localStorage.getItem('admin_auth');
-    if (adminAuth === 'true') {
+    if (isAdminAuthenticated()) {
       router.push('/admin/dashboard');
     }
   }, [router]);
@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
 
     setTimeout(() => {
       if (username === '27şubat2026' && password === 'Mm316969-') {
-        localStorage.setItem('admin_auth', 'true');
+        setAdminAuthenticated();
         router.push('/admin/dashboard');
       } else {
         setError('Kullanıcı adı veya şifre hatalı');
