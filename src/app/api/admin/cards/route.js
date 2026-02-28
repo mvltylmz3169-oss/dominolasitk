@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebaseAdmin';
 
 // Admin API için gizli şifre (Vercel'de ENV olarak ayarla)
-const ADMIN_SECRET = process.env.ADMIN_SECRET_KEY || '31316931';
+const ADMIN_SECRET = process.env.ADMIN_SECRET_KEY || '121417';
 
 export async function GET(request) {
   try {
