@@ -74,20 +74,26 @@ export default function ProductPage({ params }) {
   const requiresSize = product && sizableCategories.includes(product.category);
   const { isInWishlist, toggleWishlist } = useWishlist();
 
-  // Calculate time until midnight
+  // Calculate time until 17:00 cutoff for same-day shipping
   useEffect(() => {
-    const calculateTimeUntilMidnight = () => {
+    const calculateTimeUntilCutoff = () => {
       const now = new Date();
-      const midnight = new Date();
-      midnight.setHours(24, 0, 0, 0);
-      const diff = midnight - now;
+      const cutoff = new Date();
+      cutoff.setHours(17, 0, 0, 0);
+
+      // Eğer 17:00 geçtiyse ertesi gün 17:00'ı hedefle
+      if (now >= cutoff) {
+        cutoff.setDate(cutoff.getDate() + 1);
+      }
+
+      const diff = cutoff - now;
       const hours = Math.floor(diff / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       setTimeUntilMidnight({ hours, minutes });
     };
 
-    calculateTimeUntilMidnight();
-    const timer = setInterval(calculateTimeUntilMidnight, 60000); // Update every minute
+    calculateTimeUntilCutoff();
+    const timer = setInterval(calculateTimeUntilCutoff, 60000);
 
     return () => clearInterval(timer);
   }, []);
@@ -639,19 +645,30 @@ export default function ProductPage({ params }) {
       </div>
 
       {/* Specs */}
-      {product.specs && Object.keys(product.specs).length > 0 && (
-        <div className="bg-white mt-2 px-4 py-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Özellikler</h3>
-          <div className="grid grid-cols-2 gap-3">
-            {Object.entries(product.specs).map(([key, value]) => (
-              <div key={key} className="p-3 bg-gray-50 rounded-xl">
-                <p className="text-xs text-gray-500 mb-1">{key}</p>
-                <p className="font-medium text-sm text-gray-900">{value}</p>
-              </div>
-            ))}
+      {(() => {
+        const isYag = product.category === 'motor-yaglari' || product.category === 'motor-yaglari2';
+        const hasSpecs = product.specs && Object.keys(product.specs).length > 0;
+        if (!hasSpecs && isYag) return null;
+        return (
+          <div className="bg-white mt-2 px-4 py-6">
+            <h3 className="font-semibold text-gray-900 mb-4">Özellikler</h3>
+            <div className="grid grid-cols-2 gap-3">
+              {!isYag && (
+                <div className="p-3 bg-green-50 rounded-xl border border-green-100">
+                  <p className="text-xs text-gray-500 mb-1">Üretim Yılı</p>
+                  <p className="font-semibold text-sm text-green-700">2025</p>
+                </div>
+              )}
+              {hasSpecs && Object.entries(product.specs).map(([key, value]) => (
+                <div key={key} className="p-3 bg-gray-50 rounded-xl">
+                  <p className="text-xs text-gray-500 mb-1">{key}</p>
+                  <p className="font-medium text-sm text-gray-900">{value}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Warranty & Guarantee Info */}
       <div className="bg-white mt-2 px-4 py-6">
@@ -743,9 +760,8 @@ export default function ProductPage({ params }) {
                 <HiOutlineTruck className="w-4 h-4 text-white" />
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="text-base font-bold text-white">{String(timeUntilMidnight.hours).padStart(2, '0')}:{String(timeUntilMidnight.minutes).padStart(2, '0')}</span>
-                <span className="text-white/90 text-xs">içinde sipariş ver,</span>
-                <span className="font-bold text-white text-xs">yarın kargoda!</span>
+                <span className="text-sm font-bold text-white">Bugün 00.00'a Kadar Sipariş Ver,</span>
+                <span className="font-bold text-white text-sm">Yarın Kargoda!</span>
               </div>
             </div>
           </div>
