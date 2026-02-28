@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Footer from '@/components/Footer';
 import { 
   HiOutlineChatAlt2,
   HiOutlineQuestionMarkCircle,
@@ -172,6 +173,7 @@ export default function SupportPage() {
           </a>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

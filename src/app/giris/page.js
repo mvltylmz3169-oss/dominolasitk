@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import Footer from '@/components/Footer';
 import { FcGoogle } from 'react-icons/fc';
 import { HiOutlineUser } from 'react-icons/hi';
 import { useAuth } from '@/context/AuthContext';
@@ -63,6 +64,7 @@ export default function LoginPage() {
           </p>
         </div>
       </motion.div>
+      <Footer />
     </div>
   );
 }

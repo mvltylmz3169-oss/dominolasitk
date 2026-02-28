@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import Footer from '@/components/Footer';
 import { 
   HiOutlineLogout,
   HiOutlineShoppingBag,
@@ -99,6 +100,7 @@ export default function AccountPage() {
           <span>Çıkış Yap</span>
         </motion.button>
       </div>
+      <Footer />
     </div>
   );
 }

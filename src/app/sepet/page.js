@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import Footer from '@/components/Footer';
 import { 
   HiOutlineTrash, 
   HiOutlineMinus, 
@@ -495,6 +496,7 @@ export default function CartPage() {
           <span className="relative z-10">Ödemeye Geç</span>
         </motion.button>
       </div>
+      <Footer />
     </div>
   );
 }

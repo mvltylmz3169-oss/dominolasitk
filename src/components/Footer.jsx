@@ -47,6 +47,30 @@ export default function Footer() {
 
   return (
     <footer className='w-full bg-gray-50'>
+      {/* ETBİS Kartı - En Üst */}
+      <div className='w-full bg-gray-100 py-4 px-4'>
+        <div className='max-w-sm mx-auto bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-100 shadow-sm'>
+          <div className='flex items-center gap-3'>
+            <div className='w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0'>
+              <FaShieldAlt className='w-5 h-5 text-white' />
+            </div>
+            <div className='flex-1'>
+              <h3 className='text-sm font-semibold text-gray-900'>ETBİS Kayıtlı Site</h3>
+              <p className='text-xs text-gray-600 mt-0.5'>Sitemiz T.C. Ticaret Bakanlığı ETBİS sistemine kayıtlıdır.</p>
+            </div>
+          </div>
+          <a
+            href='https://etbis.ticaret.gov.tr/tr/Anasayfa/SiteAraSonuc?siteId=752d043e-c420-4c9e-9ce1-e466bc9ec869'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='mt-3 w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-semibold rounded-lg transition-all shadow-md hover:shadow-lg'
+          >
+            <FaFileContract className='w-4 h-4' />
+            Siteyi Sorgula
+          </a>
+        </div>
+      </div>
+
       {/* Upper Footer - Quick Links & Certifications */}
       <div className='w-full bg-gray-100 py-6 px-4'>
         <div className='max-w-4xl mx-auto'>
@@ -85,6 +109,44 @@ export default function Footer() {
               Firmamız <span className='font-semibold'>T.C. Hazine ve Maliye Bakanlığı</span> ve <span className='font-semibold'>Gaziantep Ticaret Odası</span> tarafından 
               onaylı, tüm yasal gereklilikleri yerine getiren güvenilir bir e-ticaret platformudur.
             </p>
+          </div>
+
+          {/* Ödeme Yöntemleri */}
+          <div className='bg-white rounded-xl p-4 shadow-sm mt-4'>
+            <div className='flex items-center justify-center gap-2 mb-4'>
+              <FaShieldAlt className='w-4 h-4 text-blue-600' />
+              <h3 className='text-sm font-semibold text-gray-700'>Güvenli Ödeme Yöntemleri</h3>
+            </div>
+            <div className='flex flex-wrap items-center justify-center gap-x-5 gap-y-3'>
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/bonus-card.svg' alt='Bonus Card' className='h-6 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/maximum.svg' alt='Maximum' className='h-5 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/world.svg' alt='World' className='h-5 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/ziraat.svg' alt='Ziraat' className='h-5 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/card-finans.svg' alt='CardFinans' className='h-5 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/axess.svg' alt='Axess' className='h-5 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/kuveyt-turk.svg' alt='KuveytTürk' className='h-6 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/hsbc.svg' alt='HSBC' className='h-5 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/union-pay.svg' alt='UnionPay' className='h-6 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/paraf.svg' alt='Paraf' className='h-6 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/visa.svg' alt='Visa' className='h-5 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/master-card.svg' alt='Mastercard' className='h-6 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/american-express.svg' alt='American Express' className='h-6 w-auto object-contain' />
+              <img loading='lazy' src='https://images.hepsiburada.net/assets/footer/troy.svg' alt='Troy' className='h-5 w-auto object-contain' />
+            </div>
+            <div className='flex items-center justify-center gap-4 mt-3 pt-3 border-t border-gray-100'>
+              <div className='flex items-center gap-1.5'>
+                <FaShieldAlt className='w-3.5 h-3.5 text-green-600' />
+                <span className='text-[11px] text-gray-500 font-medium'>Güvenli alışveriş</span>
+              </div>
+              <div className='flex items-center gap-1.5'>
+                <span className='text-[11px] font-bold text-blue-800'>PCI DSS</span>
+                <span className='text-[11px] text-gray-500 font-medium'>Sertifikalı</span>
+              </div>
+              <div className='flex items-center gap-1.5'>
+                <span className='text-[11px] font-bold text-green-700'>256-bit</span>
+                <span className='text-[11px] text-gray-500 font-medium'>SSL</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

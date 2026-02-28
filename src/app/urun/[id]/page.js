@@ -37,6 +37,7 @@ import ProductCard from '@/components/ProductCard';
 import BottomNavbar from '@/components/BottomNavbar';
 import CountdownBanner from '@/components/CountdownBanner';
 import SocialProof from '@/components/SocialProof';
+import Footer from '@/components/Footer';
 
 export default function ProductPage({ params }) {
   const { id } = use(params);
@@ -875,6 +876,8 @@ export default function ProductPage({ params }) {
           scrollbar-width: none;
         }
       `}</style>
+
+      <Footer />
     </div>
   );
 }
