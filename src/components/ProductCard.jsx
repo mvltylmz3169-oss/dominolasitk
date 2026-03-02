@@ -3,7 +3,7 @@
 import { memo, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { HiOutlineHeart, HiHeart, HiOutlineShoppingCart, HiStar } from 'react-icons/hi';
+import { HiOutlineHeart, HiHeart, HiOutlineShoppingCart, HiStar, HiOutlineTag, HiOutlineTruck, HiOutlineBadgeCheck } from 'react-icons/hi';
 import { useWishlist } from '@/context/WishlistContext';
 import { useCart } from '@/context/CartContext';
 
@@ -21,6 +21,46 @@ const pastelColors = [
 
 // Lastik kategorileri
 const lastikCategories = ['kis-lastikleri', 'yaz-lastikleri', 'dört-mevsim-lastikler', 'motorsiklet-lastikleri', 'agir-vasita-lastikleri', 'earac-lastikleri'];
+
+const campaignSlides = [
+  {
+    text: '4 AL 3 ÖDE',
+    icon: HiOutlineTag,
+    bg: 'bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900',
+  },
+  {
+    text: 'Yarın Kapında',
+    icon: HiOutlineTruck,
+    bg: 'bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600',
+  },
+  {
+    text: 'Kargo Bedava',
+    icon: HiOutlineBadgeCheck,
+    bg: 'bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600',
+  },
+];
+
+function CampaignBadge() {
+  return (
+    <div style={{ height: 22, overflow: 'hidden', borderRadius: '0 0 12px 12px' }}>
+      <div className="campaign-track">
+        {[...campaignSlides, campaignSlides[0]].map((slide, i) => {
+          const Icon = slide.icon;
+          return (
+            <div
+              key={i}
+              className={`${slide.bg} flex items-center justify-center gap-1 relative`}
+              style={{ height: 22, minHeight: 22 }}
+            >
+              <Icon className="w-3 h-3 text-white/90 relative z-10" />
+              <span className="text-white text-[10px] font-semibold relative z-10">{slide.text}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 // Price formatter - singleton
 const priceFormatter = new Intl.NumberFormat('tr-TR', {
@@ -58,12 +98,12 @@ const ProductCard = memo(function ProductCard({ product, index = 0 }) {
       <Link href={`/urun/${product.id}`} className="block touch-manipulation">
         <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 border border-gray-100">
           {/* Image Container with Pastel Background */}
-          <div className={`relative aspect-square ${bgColor} p-4`}>
+          <div className={`relative aspect-square ${bgColor}`}>
             <Image
               src={product.images?.[0] || '/placeholder.png'}
               alt={product.name}
               fill
-              className="object-contain p-2"
+              className="object-contain"
               sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 20vw"
               loading="lazy"
               placeholder="blur"
@@ -73,31 +113,26 @@ const ProductCard = memo(function ProductCard({ product, index = 0 }) {
             {/* Wishlist Button */}
             <button
               onClick={handleToggleWishlist}
-              className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-md hover:shadow-lg transition-shadow z-10"
+              className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow z-10"
               aria-label={isWishlisted ? "Favorilerden çıkar" : "Favorilere ekle"}
             >
               {isWishlisted ? (
-                <HiHeart className="w-5 h-5 text-red-500" />
+                <HiHeart className="w-4 h-4 text-red-500" />
               ) : (
-                <HiOutlineHeart className="w-5 h-5 text-gray-400" />
+                <HiOutlineHeart className="w-4 h-4 text-gray-400" />
               )}
             </button>
 
             {/* Discount Badge */}
             {product.discount && (
-              <div className="absolute top-3 left-3 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-lg">
+              <div className="absolute top-2 left-2 z-10 bg-orange-500 text-white text-[11px] font-bold rounded-lg px-2 py-1 shadow leading-none">
                 -%{product.discount}
               </div>
             )}
           </div>
 
           {/* Lastik Campaign Badge - Jant ve Yağlar hariç */}
-          {isLastik && (
-            <div className="relative bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 px-2 py-1 overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
-              <p className="text-white text-[10px] font-semibold text-center relative z-10">4 AL 3 ÖDE</p>
-            </div>
-          )}
+          {isLastik && <CampaignBadge />}
 
           {/* Content */}
           <div className="p-3">

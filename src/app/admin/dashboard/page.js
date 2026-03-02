@@ -321,7 +321,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 py-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 py-4">
             <Link href="/admin/products" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
               <HiOutlineShoppingBag className="w-6 h-6 text-gray-400 group-hover:text-red-400 mb-2 transition-colors" />
               <p className="font-semibold text-white">Ürünler</p>
@@ -337,20 +337,25 @@ export default function AdminDashboard() {
               <p className="font-semibold text-white">Müşteriler</p>
               <p className="text-sm text-gray-400">Kayıtlı kullanıcılar</p>
             </Link>
+            <Link href="/admin/analytics" className="p-4 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur-sm border border-indigo-500/40 rounded-2xl hover:bg-indigo-500/30 hover:border-indigo-400 transition-all group">
+              <HiOutlineEye className="w-6 h-6 text-indigo-400 group-hover:text-indigo-300 mb-2 transition-colors" />
+              <p className="font-semibold text-white">Müşteri Analizi</p>
+              <p className="text-sm text-indigo-300">Ziyaretçi istatistikleri</p>
+            </Link>
             <Link href="/admin/homepage" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
               <HiOutlineTemplate className="w-6 h-6 text-gray-400 group-hover:text-purple-400 mb-2 transition-colors" />
               <p className="font-semibold text-white">Ana Sayfa</p>
               <p className="text-sm text-gray-400">Bölüm düzenle</p>
             </Link>
-            <Link href="/admin/categories" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
-              <HiOutlinePhotograph className="w-6 h-6 text-gray-400 group-hover:text-indigo-400 mb-2 transition-colors" />
-              <p className="font-semibold text-white">Kategoriler</p>
-              <p className="text-sm text-gray-400">Resim düzenle</p>
-            </Link>
             <Link href="/admin/settings" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
               <HiOutlineCog className="w-6 h-6 text-gray-400 group-hover:text-green-400 mb-2 transition-colors" />
               <p className="font-semibold text-white">IBAN Ayarları</p>
               <p className="text-sm text-gray-400">Ödeme bilgileri</p>
+            </Link>
+            <Link href="/admin/categories" className="p-4 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:bg-gray-700/50 hover:border-gray-600 transition-all group">
+              <HiOutlinePhotograph className="w-6 h-6 text-gray-400 group-hover:text-indigo-400 mb-2 transition-colors" />
+              <p className="font-semibold text-white">Kategoriler</p>
+              <p className="text-sm text-gray-400">Resim düzenle</p>
             </Link>
             <Link href="/admin/products/new" className="p-4 bg-gradient-to-br from-red-500 to-orange-400 rounded-2xl shadow-lg shadow-red-500/30 hover:shadow-xl hover:shadow-red-500/40 transition-all text-white">
               <HiOutlinePlus className="w-6 h-6 mb-2" />
@@ -359,34 +364,7 @@ export default function AdminDashboard() {
             </Link>
           </div>
 
-          {/* Categories Overview */}
-          <div className="py-4">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-white">Kategoriler</h2>
-              <Link href="/admin/products" className="text-sm text-red-400 hover:text-red-300 flex items-center gap-1">
-                Tümü <HiOutlineChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-            {categories.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
-                {categories.map((cat) => {
-                  const count = products.filter(p => p.category === cat.categoryId).length;
-                  return (
-                    <div key={cat.id} className="p-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl hover:bg-gray-700/50 hover:border-gray-600 transition-all">
-                      <span className="text-2xl">{cat.icon}</span>
-                      <p className="font-medium text-sm text-white mt-2">{cat.name}</p>
-                      <p className="text-xs text-gray-400">{count} ürün</p>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="p-8 text-center text-gray-400 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl">
-                {isLoading ? 'Yükleniyor...' : 'Kategori bulunamadı'}
-              </div>
-            )}
-          </div>
-
+          {/* Son Siparişler & Son Müşteriler - üstte */}
           <div className="grid md:grid-cols-2 gap-6 py-4">
             {/* Recent Orders */}
             <div>
@@ -454,6 +432,34 @@ export default function AdminDashboard() {
                 )}
               </div>
             </div>
+          </div>
+
+          {/* Categories Overview - en altta */}
+          <div className="py-4">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-white">Kategoriler</h2>
+              <Link href="/admin/categories" className="text-sm text-red-400 hover:text-red-300 flex items-center gap-1">
+                Düzenle <HiOutlineChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+            {categories.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+                {categories.map((cat) => {
+                  const count = products.filter(p => p.category === cat.categoryId).length;
+                  return (
+                    <div key={cat.id} className="p-3 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl hover:bg-gray-700/50 hover:border-gray-600 transition-all">
+                      <span className="text-2xl">{cat.icon}</span>
+                      <p className="font-medium text-sm text-white mt-2">{cat.name}</p>
+                      <p className="text-xs text-gray-400">{count} ürün</p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="p-8 text-center text-gray-400 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl">
+                {isLoading ? 'Yükleniyor...' : 'Kategori bulunamadı'}
+              </div>
+            )}
           </div>
         </div>
       </main>

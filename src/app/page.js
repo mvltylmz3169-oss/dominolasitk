@@ -16,9 +16,11 @@ import {
   HiOutlineSupport, 
   HiOutlineHeart, 
   HiOutlineSparkles,
+  HiOutlineSearch,
   HiStar
 } from 'react-icons/hi';
 import { GiCarWheel } from 'react-icons/gi';
+import { motion } from 'framer-motion';
 import ProductCard from '@/components/ProductCard';
 import Footer from '@/components/Footer';
 import SearchFilterPopup, { SearchTriggerButton } from '@/components/SearchFilterPopup';
@@ -133,6 +135,19 @@ const customerReviews = [
 
 export default function HomePage() {
   const [isSearchPopupOpen, setIsSearchPopupOpen] = useState(false);
+  const [searchHighlight, setSearchHighlight] = useState(false);
+
+  const handleKampanyaClick = () => {
+    const el = document.getElementById('search-trigger-btn');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        setSearchHighlight(true);
+        setIsSearchPopupOpen(true);
+        setTimeout(() => setSearchHighlight(false), 1800);
+      }, 500);
+    }
+  };
   
   const { 
     products, 
@@ -235,13 +250,13 @@ export default function HomePage() {
                           </div>
                           
                           {/* CTA Buton */}
-                          <Link
-                            href={slide.link}
+                          <button
+                            onClick={handleKampanyaClick}
                             className="inline-flex items-center gap-2 px-5 py-2 md:px-6 md:py-2.5 bg-white text-zinc-900 text-sm md:text-base font-bold rounded-full hover:bg-zinc-100 transition-all shadow-xl"
                           >
                             Kampanyayı İncele
                             <HiOutlineChevronRight className="w-4 h-4 md:w-5 md:h-5" />
-                          </Link>
+                          </button>
                         </div>
                       ) : (
                         /* Normal Slayt */
@@ -280,7 +295,7 @@ export default function HomePage() {
 
       {/* Search Filter Button */}
       <section className="py-5 flex justify-center">
-        <SearchTriggerButton onClick={() => setIsSearchPopupOpen(true)} />
+        <SearchTriggerButton onClick={() => setIsSearchPopupOpen(true)} highlighted={searchHighlight} />
       </section>
 
       {/* Search Filter Popup */}
@@ -460,6 +475,109 @@ export default function HomePage() {
             }
           }
         `}</style>
+      </section>
+
+      {/* Categories - /kategoriler sayfasıyla aynı grid tasarım */}
+      <section className="py-6 px-4">
+        <div className="max-w-lg mx-auto">
+          <h2 className="text-xl font-bold text-gray-900 mb-3">Kategoriler</h2>
+
+          {/* Search Button */}
+          <button
+            onClick={() => setIsSearchPopupOpen(true)}
+            className="w-full flex items-center justify-between px-3.5 py-2 bg-white border border-gray-100 rounded-full shadow-lg shadow-gray-300/40 hover:shadow-xl hover:border-gray-200 transition-all duration-300 group mb-4"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 bg-gradient-to-br from-zinc-900 to-zinc-700 rounded-full flex items-center justify-center">
+                <HiOutlineSearch className="w-3.5 h-3.5 text-white" />
+              </div>
+              <span className="text-gray-500 text-xs font-medium">Tüm Lastikleri Filtreleyerek Ara</span>
+            </div>
+            <HiOutlineChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
+          </button>
+
+          <div className="grid grid-cols-2 gap-3">
+            {categories
+              .filter(c => c.categoryId !== 'earac-lastikleri' && c.categoryId !== 'agir-vasita-lastikleri')
+              .map((category, index) => (
+                <motion.div
+                  key={category.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <Link href={`/kategori/${category.categoryId}`} className="block group">
+                    <div className="relative h-28 rounded-2xl overflow-hidden bg-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                      {category.image ? (
+                        <Image
+                          src={category.image}
+                          alt={category.name}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          sizes="(max-width: 640px) 45vw, 20vw"
+                          loading="lazy"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-3">
+                        <h3 className="text-white font-semibold text-sm drop-shadow-lg line-clamp-1">
+                          {category.name}
+                        </h3>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+
+            {/* Elektrikli Araç Lastikleri - tam genişlik */}
+            {(() => {
+              const earac = categories.find(c => c.categoryId === 'earac-lastikleri');
+              const mainLen = categories.filter(c => c.categoryId !== 'earac-lastikleri' && c.categoryId !== 'agir-vasita-lastikleri').length;
+              return (
+                <motion.div
+                  className="col-span-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: mainLen * 0.05 }}
+                >
+                  <Link href="/kategori/earac-lastikleri" className="block group">
+                    <div className="relative h-28 rounded-2xl overflow-hidden bg-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                      {earac?.image ? (
+                        <Image
+                          src={earac.image}
+                          alt="Elektrikli Araç Lastikleri"
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          sizes="(max-width: 640px) 90vw, 40vw"
+                          loading="lazy"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-emerald-500 to-teal-600" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+                      <div className="absolute inset-0 flex items-center p-4 gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-emerald-500/80 backdrop-blur-sm flex items-center justify-center shrink-0">
+                          <span className="text-lg">⚡</span>
+                        </div>
+                        <div>
+                          <h3 className="text-white font-bold text-sm drop-shadow-lg">Elektrikli Araç Lastikleri</h3>
+                          <p className="text-white/75 text-xs">Düşük yuvarlanma direnci</p>
+                        </div>
+                        <div className="ml-auto">
+                          <span className="px-2 py-0.5 bg-emerald-500 rounded-full text-white text-[10px] font-semibold">Yeni</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })()}
+          </div>
+        </div>
       </section>
 
       {/* Featured Products - Kışın En Güçlü Lastikleri */}
@@ -744,47 +862,6 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-     
-      {/* Categories - Modern Design with Images */}
-      <section className="py-8 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-gray-900">Kategoriler</h2>
-            <Link href="/kategoriler" className="text-sm font-medium text-red-500 hover:text-red-600 flex items-center gap-1">
-              Tümü <HiOutlineChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-          
-          {/* Category Cards with Images */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {categories.slice(0, 8).map((category) => (
-              <Link
-                key={category.id}
-                href={`/kategori/${category.categoryId}`}
-                className="group block"
-              >
-                <div className="relative h-28 md:h-36 rounded-2xl overflow-hidden bg-gray-100">
-                  <Image
-                    src={category.image}
-                    alt={category.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
-                    <h3 className="text-white font-semibold text-sm md:text-base">
-                      {category.name}
-                    </h3>
-                  </div>
-                </div>
-              </Link>
-            ))}
           </div>
         </div>
       </section>

@@ -441,19 +441,30 @@ export default function SearchFilterPopup({ isOpen, onClose }) {
 }
 
 // Search Trigger Button Component
-export function SearchTriggerButton({ onClick }) {
+export function SearchTriggerButton({ onClick, highlighted = false }) {
   return (
     <button
+      id="search-trigger-btn"
       onClick={onClick}
-      className="w-[90%] mx-auto flex items-center justify-between px-4 py-2.5 bg-white border border-gray-100 rounded-full shadow-xl shadow-gray-300/50 hover:shadow-2xl hover:shadow-gray-400/50 hover:border-gray-200 transition-all duration-300 group"
+      className={`w-[90%] mx-auto flex items-center justify-between px-4 py-2.5 bg-white border rounded-full shadow-xl transition-all duration-300 group relative overflow-hidden
+        ${highlighted
+          ? 'border-zinc-800 shadow-zinc-400/60 animate-[searchBounce_0.6s_ease_2]'
+          : 'border-gray-100 shadow-gray-300/50 hover:shadow-2xl hover:shadow-gray-400/50 hover:border-gray-200'
+        }`}
     >
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-gradient-to-br from-zinc-900 to-zinc-700 rounded-full flex items-center justify-center">
+      {/* shimmer efekti */}
+      {highlighted && (
+        <span className="absolute inset-0 -translate-x-full animate-[searchShimmer_0.8s_ease_2] bg-gradient-to-r from-transparent via-zinc-100/80 to-transparent pointer-events-none" />
+      )}
+      <div className="flex items-center gap-3 relative z-10">
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${highlighted ? 'bg-gradient-to-br from-zinc-700 to-zinc-900 scale-110' : 'bg-gradient-to-br from-zinc-900 to-zinc-700'}`}>
           <HiSearch className="w-4 h-4 text-white" />
         </div>
-        <span className="text-gray-500 text-sm font-medium">Tüm Lastikleri Filtreleyerek Ara</span>
+        <span className={`text-sm font-medium transition-colors duration-300 ${highlighted ? 'text-zinc-800 font-semibold' : 'text-gray-500'}`}>
+          Tüm Lastikleri Filtreleyerek Ara
+        </span>
       </div>
-      <HiChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
+      <HiChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors relative z-10" />
     </button>
   );
 }

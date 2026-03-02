@@ -252,143 +252,112 @@ export default function Navbar() {
             className="fixed inset-0 z-60 bg-white overflow-y-auto"
           >
             {/* Header with Gradient & Stats */}
-            <div className="relative bg-gradient-to-br from-gray-900 via-slate-800 to-indigo-900 p-4 pb-6">
+            <div className="relative bg-gradient-to-br from-gray-900 via-slate-800 to-indigo-900 px-4 pt-3 pb-4">
               {/* Close Button */}
               <button 
                 onClick={() => setIsMenuOpen(false)}
-                className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
               >
-                <HiOutlineX className="w-5 h-5 text-white" />
+                <HiOutlineX className="w-4 h-4 text-white" />
               </button>
               
-              {/* Countdown Timer */}
-              <div className="mb-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-red-500 flex items-center justify-center animate-pulse">
-                    <HiOutlineClock className="w-4 h-4 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-white/70 text-xs">İndirim için son</p>
-                    <p className="text-white font-bold text-lg">
-                      <MenuCountdown />
-                    </p>
-                  </div>
+              {/* Countdown Timer - yatay tek satır */}
+              <div className="flex items-center gap-2 mb-3 pr-10">
+                <div className="w-7 h-7 rounded-lg bg-red-500 flex items-center justify-center animate-pulse shrink-0">
+                  <HiOutlineClock className="w-3.5 h-3.5 text-white" />
                 </div>
+                <p className="text-white/70 text-xs shrink-0">İndirim için son</p>
+                <p className="text-white font-bold text-sm">
+                  <MenuCountdown />
+                </p>
               </div>
 
               {/* Social Proof Stats */}
               <div className="grid grid-cols-3 gap-2">
-                <div className="bg-white/10 rounded-xl p-3 text-center">
-                  <div className="flex items-center justify-center gap-1 mb-1">
-                    <HiOutlineUserGroup className="w-4 h-4 text-green-400" />
-                    <span className="relative flex h-2 w-2">
+                <div className="bg-white/10 rounded-xl p-2.5 text-center">
+                  <div className="flex items-center justify-center gap-1 mb-0.5">
+                    <HiOutlineUserGroup className="w-3.5 h-3.5 text-green-400" />
+                    <span className="relative flex h-1.5 w-1.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-400"></span>
                     </span>
                   </div>
-                  <p className="text-white font-bold text-lg">1.427</p>
-                  <p className="text-white/60 text-[10px]">Bugün Alışveriş</p>
+                  <p className="text-white font-bold text-base">1.427</p>
+                  <p className="text-white/60 text-[9px]">Bugün Alışveriş</p>
                 </div>
-                <div className="bg-white/10 rounded-xl p-3 text-center">
-                  <div className="flex items-center justify-center gap-1 mb-1">
-                    <HiOutlineShoppingCart className="w-4 h-4 text-blue-400" />
+                <div className="bg-white/10 rounded-xl p-2.5 text-center">
+                  <div className="flex items-center justify-center gap-1 mb-0.5">
+                    <HiOutlineShoppingCart className="w-3.5 h-3.5 text-blue-400" />
                   </div>
-                  <p className="text-white font-bold text-lg">847</p>
-                  <p className="text-white/60 text-[10px]">Aktif Sipariş</p>
+                  <p className="text-white font-bold text-base">847</p>
+                  <p className="text-white/60 text-[9px]">Aktif Sipariş</p>
                 </div>
-                <div className="bg-white/10 rounded-xl p-3 text-center">
-                  <div className="flex items-center justify-center gap-1 mb-1">
-                    <HiOutlineFire className="w-4 h-4 text-orange-400" />
+                <div className="bg-white/10 rounded-xl p-2.5 text-center">
+                  <div className="flex items-center justify-center gap-1 mb-0.5">
+                    <HiOutlineFire className="w-3.5 h-3.5 text-orange-400" />
                   </div>
-                  <p className="text-white font-bold text-lg">2.873</p>
-                  <p className="text-white/60 text-[10px]">Siteyi İnceleyen</p>
+                  <p className="text-white font-bold text-base">2.873</p>
+                  <p className="text-white/60 text-[9px]">Siteyi İnceleyen</p>
                 </div>
               </div>
             </div>
 
-              {/* Quick Actions */}
-              <div className="p-4 mt-2">
-                <div className="grid grid-cols-3 gap-2">
-                  <Link
-                    href="/favoriler"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex flex-col items-center gap-2 p-4 bg-pink-50 rounded-2xl hover:bg-pink-100 transition-colors"
-                  >
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center">
-                      <HiOutlineHeart className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="text-xs font-medium text-gray-700">Favoriler</span>
-                  </Link>
-                  <Link
-                    href="/sepet"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex flex-col items-center gap-2 p-4 bg-blue-50 rounded-2xl hover:bg-blue-100 transition-colors relative"
-                  >
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-                      <HiOutlineShoppingBag className="w-5 h-5 text-white" />
-                    </div>
-                    {getCartCount() > 0 && (
-                      <span className="absolute top-2 right-6 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                        {getCartCount()}
-                      </span>
-                    )}
-                    <span className="text-xs font-medium text-gray-700">Sepetim</span>
-                  </Link>
-                  <Link
-                    href="/firsatlar"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex flex-col items-center gap-2 p-4 bg-orange-50 rounded-2xl hover:bg-orange-100 transition-colors"
-                  >
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
-                      <HiOutlineTag className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="text-xs font-medium text-gray-700">Fırsatlar</span>
-                  </Link>
-                </div>
-              </div>
-
               {/* Categories Section */}
-              <div className="px-4 py-2">
+              <div className="px-4 py-3">
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-1">Kategoriler</h3>
                 <MobileCategories onClose={() => setIsMenuOpen(false)} />
               </div>
 
-              {/* Links Section */}
-              <div className="px-4 py-4 border-t border-gray-100 mt-2">
-                <div className="space-y-1">
+              {/* Quick Actions - Kategorilerin altında */}
+              <div className="px-4 pb-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    href="/sepet"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-3 p-3 bg-blue-50 rounded-2xl hover:bg-blue-100 transition-colors relative"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shrink-0">
+                      <HiOutlineShoppingBag className="w-4 h-4 text-white" />
+                    </div>
+                    {getCartCount() > 0 && (
+                      <span className="absolute top-2 right-3 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                        {getCartCount()}
+                      </span>
+                    )}
+                    <span className="text-sm font-medium text-gray-700">Sepetim</span>
+                  </Link>
                   <Link
                     href="/destek"
                     onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-3 p-3 bg-emerald-50 rounded-2xl hover:bg-emerald-100 transition-colors"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shrink-0">
+                      <HiOutlineSupport className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-700">Destek</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Links Section - sadece hesap ayarları */}
+              {user && (
+                <div className="px-4 py-2 border-t border-gray-100 mt-1">
+                  <Link
+                    href="/hesabim"
+                    onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"
                   >
-                    <div className="w-9 h-9 rounded-lg bg-emerald-100 flex items-center justify-center">
-                      <HiOutlineSupport className="w-5 h-5 text-emerald-600" />
+                    <div className="w-9 h-9 rounded-lg bg-purple-100 flex items-center justify-center">
+                      <HiOutlineCog className="w-5 h-5 text-purple-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="font-medium text-gray-900 text-sm">Yardım & Destek</p>
-                      <p className="text-xs text-gray-500">Sorularınız için</p>
+                      <p className="font-medium text-gray-900 text-sm">Hesap Ayarları</p>
+                      <p className="text-xs text-gray-500">Profil ve siparişler</p>
                     </div>
                     <HiOutlineChevronRight className="w-5 h-5 text-gray-400" />
                   </Link>
-                  
-                  {user && (
-                    <Link
-                      href="/hesabim"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="w-9 h-9 rounded-lg bg-purple-100 flex items-center justify-center">
-                        <HiOutlineCog className="w-5 h-5 text-purple-600" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-medium text-gray-900 text-sm">Hesap Ayarları</p>
-                        <p className="text-xs text-gray-500">Profil ve siparişler</p>
-                      </div>
-                      <HiOutlineChevronRight className="w-5 h-5 text-gray-400" />
-                    </Link>
-                  )}
                 </div>
-              </div>
+              )}
 
               {/* Contact Info */}
               <div className="px-4 py-4 bg-gray-50 mx-4 rounded-2xl mb-4">
@@ -425,9 +394,12 @@ export default function Navbar() {
 function MobileCategories({ onClose }) {
   const { categories } = useProducts();
   
+  const earac = categories.find(c => c.categoryId === 'earac-lastikleri');
+  const mainCategories = categories.filter(c => c.categoryId !== 'earac-lastikleri').slice(0, 6);
+
   return (
     <div className="grid grid-cols-2 gap-3">
-      {categories.slice(0, 6).map((category, index) => (
+      {mainCategories.map((category, index) => (
         <motion.div
           key={category.id}
           initial={{ opacity: 0, y: 20 }}
@@ -463,6 +435,49 @@ function MobileCategories({ onClose }) {
           </Link>
         </motion.div>
       ))}
+
+      {/* Elektrikli Araç Lastikleri - tam genişlik */}
+      <motion.div
+        className="col-span-2"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: mainCategories.length * 0.05 }}
+      >
+        <Link
+          href="/kategori/earac-lastikleri"
+          onClick={onClose}
+          className="block group"
+        >
+          <div className="relative h-24 rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
+            {earac?.image ? (
+              <Image
+                src={earac.image}
+                alt="Elektrikli Araç Lastikleri"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                unoptimized
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+                <span className="text-4xl">⚡</span>
+              </div>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+            <div className="absolute inset-0 flex items-center p-4 gap-3">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/80 backdrop-blur-sm flex items-center justify-center shrink-0">
+                <span className="text-lg">⚡</span>
+              </div>
+              <div>
+                <h3 className="text-white font-bold text-sm drop-shadow-lg">Elektrikli Araç Lastikleri</h3>
+                <p className="text-white/75 text-xs">Düşük yuvarlanma direnci</p>
+              </div>
+              <div className="ml-auto">
+                <span className="px-2 py-0.5 bg-emerald-500 rounded-full text-white text-[10px] font-semibold">Yeni</span>
+              </div>
+            </div>
+          </div>
+        </Link>
+      </motion.div>
     </div>
   );
 }
